@@ -7,6 +7,7 @@ class App:
         self.root = tk.Tk()
         self.root.title("Anchor")
         self.root.grid_columnconfigure(0, weight=1)  # adjust size with window
+        self.root.grid_columnconfigure(1, weight=1)  # adjust size with window
         self.root.grid_rowconfigure(0, weight=1)
 
         self.mouse = MouseController()
@@ -17,9 +18,10 @@ class App:
         self.activate_hotkeys_button = tk.Button(self.root, text="Activate hotkeys", command=self.activate_hotkeys)
 
     def run(self):
-        self.add_anchor_button.grid(row=20, column=0)
-        self.activate_hotkeys_button.grid(row=20, column=1)
+        self.add_anchor_button.grid(row=0, column=0, sticky='w', padx=5)
+        self.activate_hotkeys_button.grid(row=0, column=0, sticky='e', padx=5)
 
+        self.drop_an_anchor()
         self.root.mainloop()
 
     def drop_an_anchor(self):
