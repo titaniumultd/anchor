@@ -1,1 +1,4 @@
+# python runtime stuff
 *.pyc
+# don't commit local config
+*.json

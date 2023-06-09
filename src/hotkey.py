@@ -1,12 +1,16 @@
 import keyboard
 import tkinter
 
+
 class HotKey:
+    '''
+    Class to hold the individual hotkeys and provide services to set and activate the hotkeys.
+    '''
     def __init__(self, entry_field, action):
         self.entry_field = entry_field
         self.action = action
         self.hotkey = tkinter.StringVar(value='')
-        self.entry_field.config(textvariable=self.hotkey) # Set the textvariable of the Entry field
+        self.entry_field.config(textvariable=self.hotkey)
         self.is_capturing = False
 
     def start_capturing(self):
@@ -30,7 +34,7 @@ class HotKey:
     def on_key_release(self, e):
         if self.is_capturing:
             self.stop_capturing()
-            self.hotkey.set('+'.join(self.captured_keys))  # Changed from .value to .set()
+            self.hotkey.set('+'.join(self.captured_keys))
             self.captured_keys = []
         return False 
 
@@ -40,6 +44,6 @@ class HotKey:
 
     def deactivate(self):
         try:
-            keyboard.remove_hotkey(self.hotkey.get())  # Changed from .hotkey to .hotkey.get()
+            keyboard.remove_hotkey(self.hotkey.get())
         except KeyError:
             pass

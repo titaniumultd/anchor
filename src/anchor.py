@@ -1,15 +1,18 @@
 import tkinter as tk
 from tkinter import ttk
-from hotkey import HotKey
+from src.hotkey import HotKey
 from pynput.mouse import Button as MouseButton
 
 
 class Anchor:
     def __init__(self, root, index, mouse):
+        '''
+        Instanced class to hold sets of hotkeys and ui components
+        '''
         self.root = root
         self.index = index
         self.mouse = mouse
-        self.anchor_frame = tk.Frame(self.root)  # Add a frame to contain all UI elements
+        self.anchor_frame = tk.Frame(self.root)
         self.anchor_frame.grid()
 
         # initialize UI elements
@@ -27,6 +30,7 @@ class Anchor:
 
         self.separator = tk.Label(self.anchor_frame, text="")
 
+        # group all the elements in the frame
         self.ui_elements = [
             self.record_position_label, self.record_position_entry, self.record_position_button,
             self.click_position_label, self.click_position_entry, self.click_position_button,
@@ -36,7 +40,7 @@ class Anchor:
         # initialize hotkeys
         self.record_hotkey = HotKey(self.record_position_entry, self.record_position)
         self.click_hotkey = HotKey(self.click_position_entry, self.click_position)
-        self.record_hotkey.hotkey.set(f'ctrl+alt+{index+1}') # Set the default hotkey values using the StringVar
+        self.record_hotkey.hotkey.set(f'ctrl+alt+{index+1}')
         self.click_hotkey.hotkey.set(f'alt+{index+1}')
         self.record_hotkey.activate()
         self.click_hotkey.activate()
@@ -45,6 +49,9 @@ class Anchor:
 
 
     def grid_ui_elements(self):
+        '''
+        Called after creation to align ui components
+        '''
         self.record_position_label.config(text=f"Drop Anchor {self.index+1}:")
         self.record_position_label.grid(row=self.index*5, column=0, pady=2)
         self.record_position_entry.grid(row=self.index*5, column=1)
@@ -82,3 +89,27 @@ class Anchor:
         self.click_hotkey.deactivate()
 
         self.anchor_frame.destroy()
+    
+    def to_dict(self):
+        '''
+        Converts the anchor instance to a dictionary for serialization.
+        '''
+        return {
+            'index': self.index,
+            'record_hotkey': self.record_hotkey.hotkey.get(),
+            'click_hotkey': self.click_hotkey.hotkey.get(),
+            'mouse_position': self.mouse_position if hasattr(self, 'mouse_position') else None,
+            'action': self.action_combobox.get()
+        }
+
+    @staticmethod
+    def from_dict(dictionary, root, mouse):
+        '''
+        Creates a new anchor instance from a dictionary.
+        '''
+        new_anchor = Anchor(root, dictionary['index'], mouse)
+        new_anchor.record_hotkey.hotkey.set(dictionary['record_hotkey'])
+        new_anchor.click_hotkey.hotkey.set(dictionary['click_hotkey'])
+        new_anchor.mouse_position = dictionary['mouse_position']
+        new_anchor.action_combobox.set(dictionary['action'])
+        return new_anchor
