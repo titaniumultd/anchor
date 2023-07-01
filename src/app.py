@@ -3,6 +3,7 @@ import os
 import tkinter as tk
 from pynput.mouse import Controller as MouseController
 from src.anchor import Anchor
+from src.notifier import Notifier
 
 MAX_ANCHORS = 5
 
@@ -27,7 +28,13 @@ class App(Singleton):
         self.root.grid_columnconfigure(1, weight=1)
         self.root.grid_rowconfigure(0, weight=1)
 
+        self.notifier = Notifier()
+        self.notifier.register_listener(self)
+
         self.mouse = MouseController()
+
+        self.state_file_path = 'config/state.json'
+        self.current_profile = 'default'
 
         self.anchors = []
 
@@ -50,7 +57,7 @@ class App(Singleton):
         '''
         if len(self.anchors) >= MAX_ANCHORS:
             return
-        new_anchor = Anchor(self.root, len(self.anchors), self.mouse)
+        new_anchor = Anchor(self.root, len(self.anchors), self.mouse, self.notifier)
         new_anchor.remove_anchor_button['command'] = lambda: self.remove_anchor(new_anchor)
         new_anchor.grid_ui_elements()
         self.anchors.append(new_anchor)
@@ -74,31 +81,48 @@ class App(Singleton):
             anchor.record_hotkey.activate()
             anchor.click_hotkey.activate()
 
-    def load_state(self) -> bool:
-        if os.path.exists('config/state.json'):
-            with open('config/state.json', 'r') as file:
+    def load_state(self):
+        if not os.path.exists(self.state_file_path):
+            os.makedirs(os.path.dirname(self.state_file_path), exist_ok=True)
+            state = {
+                'last_profile': 'default',
+                'profiles': {'default': []}
+            }
+            with open(self.state_file_path, 'w') as file:
+                json.dump(state, file, default=str)
+            return state
+        else:
+            with open(self.state_file_path, 'r') as file:
                 state = json.load(file)
+                if isinstance(state, dict) and 'profiles' in state and isinstance(state['profiles'], dict):
+                    self.current_profile = state['last_profile']
+                    profiles = state['profiles']
+                    if self.current_profile in profiles:
+                        anchors = profiles[self.current_profile]
+                        for anchor_dict in anchors:
+                            new_anchor = Anchor.from_dict(anchor_dict, self.root, self.mouse, self.notifier)
+                            new_anchor.grid_ui_elements()
+                            self.anchors.append(new_anchor)
+                else:
+                    print(f"Invalid state.json format. Expected a dictionary with 'profiles' key.")
+                    return {
+                        'last_profile': 'default',
+                        'profiles': {'default': []}
+                    }
 
-            for anchor_state in state:
-                new_anchor = Anchor(self.root, len(self.anchors), self.mouse)
-                new_anchor.record_hotkey.hotkey.set(anchor_state['record_hotkey'])
-                new_anchor.click_hotkey.hotkey.set(anchor_state['click_hotkey'])
-                if anchor_state['mouse_position']:
-                    new_anchor.mouse_position = anchor_state['mouse_position']
-                new_anchor.action_combobox.set(anchor_state['action'])
-                new_anchor.remove_anchor_button['command'] = lambda anchor=new_anchor: self.remove_anchor(anchor)
-                new_anchor.grid_ui_elements()
-                self.anchors.append(new_anchor)
-            return True
-        return False
-            
     def save_state(self):
-        state = [{
-            'record_hotkey': anchor.record_hotkey.hotkey.get(),
-            'click_hotkey': anchor.click_hotkey.hotkey.get(),
-            'mouse_position': anchor.mouse_position if hasattr(anchor, 'mouse_position') else None,
-            'action': anchor.action_combobox.get(),
-        } for anchor in self.anchors]
+        state = [anchor.to_dict() for anchor in self.anchors]
+        with open(self.state_file_path, 'r+') as file:
+            current_state = json.load(file)
+            if isinstance(current_state, dict) and 'profiles' in current_state and isinstance(current_state['profiles'], dict):
+                profiles = current_state['profiles']
+                profiles[self.current_profile] = state
+                current_state['last_profile'] = self.current_profile
+                file.seek(0)
+                file.truncate()
+                json.dump(current_state, file, default=str)
+            else:
+                print(f"Invalid state.json format in save_state. Expected a dictionary with 'profiles' key.")
 
-        with open('config/state.json', 'w') as file:
-            json.dump(state, file)
+    def update(self):
+        self.save_state()

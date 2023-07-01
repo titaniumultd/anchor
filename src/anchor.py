@@ -5,7 +5,7 @@ from pynput.mouse import Button as MouseButton
 
 
 class Anchor:
-    def __init__(self, root, index, mouse):
+    def __init__(self, root, index, mouse, notifier):
         '''
         Instanced class to hold sets of hotkeys and ui components
         '''
@@ -14,6 +14,7 @@ class Anchor:
         self.mouse = mouse
         self.anchor_frame = tk.Frame(self.root)
         self.anchor_frame.grid()
+        self.notifier = notifier
 
         # initialize UI elements
         self.record_position_label = tk.Label(self.anchor_frame)
@@ -72,6 +73,7 @@ class Anchor:
 
     def record_position(self):
         self.mouse_position = self.mouse.position
+        self.notifier.notify()
 
     def click_position(self):
         if self.mouse_position:
@@ -89,6 +91,7 @@ class Anchor:
         self.click_hotkey.deactivate()
 
         self.anchor_frame.destroy()
+        self.notifier.notify()
     
     def to_dict(self):
         '''
@@ -103,11 +106,11 @@ class Anchor:
         }
 
     @staticmethod
-    def from_dict(dictionary, root, mouse):
+    def from_dict(dictionary, root, mouse, notifier):
         '''
         Creates a new anchor instance from a dictionary.
         '''
-        new_anchor = Anchor(root, dictionary['index'], mouse)
+        new_anchor = Anchor(root, dictionary['index'], mouse, notifier)
         new_anchor.record_hotkey.hotkey.set(dictionary['record_hotkey'])
         new_anchor.click_hotkey.hotkey.set(dictionary['click_hotkey'])
         new_anchor.mouse_position = dictionary['mouse_position']
