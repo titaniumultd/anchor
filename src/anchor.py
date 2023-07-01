@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-from src.hotkey import HotKey
+
 from pynput.mouse import Button as MouseButton
+
+from src.hotkey import HotKey
 
 
 class Anchor:
