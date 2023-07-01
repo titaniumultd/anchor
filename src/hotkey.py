@@ -1,5 +1,6 @@
-import keyboard
 import tkinter
+
+import keyboard
 
 
 class HotKey:

@@ -3,11 +3,13 @@ This script is now retired and retained only for reference
 """
 
 
-import keyboard
 import time
 import tkinter
 from tkinter import ttk
-from pynput.mouse import Button as MouseButton, Controller as MouseController
+
+import keyboard
+from pynput.mouse import Button as MouseButton
+from pynput.mouse import Controller as MouseController
 
 ANCHOR_ROWS = 4
 MAX_ANCHORS = 5

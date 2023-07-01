@@ -1,7 +1,9 @@
 import json
 import os
 import tkinter as tk
+
 from pynput.mouse import Controller as MouseController
+
 from src.anchor import Anchor
 
 MAX_ANCHORS = 5
