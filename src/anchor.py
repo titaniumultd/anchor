@@ -88,12 +88,13 @@ class Anchor:
             elif action == "double left click":
                 self.mouse.click(MouseButton.left, 2)
 
-    def destroy(self):
+    def destroy(self, save=True):
         self.record_hotkey.deactivate()
         self.click_hotkey.deactivate()
 
         self.anchor_frame.destroy()
-        self.notifier.notify()
+        if save:
+            self.notifier.notify()
     
     def to_dict(self):
         '''
@@ -108,13 +109,13 @@ class Anchor:
         }
 
     @staticmethod
-    def from_dict(dictionary, root, mouse, notifier):
-        '''
-        Creates a new anchor instance from a dictionary.
-        '''
-        new_anchor = Anchor(root, dictionary['index'], mouse, notifier)
-        new_anchor.record_hotkey.hotkey.set(dictionary['record_hotkey'])
-        new_anchor.click_hotkey.hotkey.set(dictionary['click_hotkey'])
-        new_anchor.mouse_position = dictionary['mouse_position']
-        new_anchor.action_combobox.set(dictionary['action'])
+    def from_dict(anchor_dict, root, mouse, notifier, remove_callback=None):
+        new_anchor = Anchor(root, anchor_dict['index'], mouse, notifier)
+        new_anchor.record_hotkey.hotkey.set(anchor_dict['record_hotkey'])
+        new_anchor.click_hotkey.hotkey.set(anchor_dict['click_hotkey'])
+        if anchor_dict['mouse_position']:
+            new_anchor.mouse_position = anchor_dict['mouse_position']
+        new_anchor.action_combobox.set(anchor_dict['action'])
+        if remove_callback:
+            new_anchor.remove_anchor_button['command'] = remove_callback
         return new_anchor
