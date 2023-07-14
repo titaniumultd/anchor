@@ -7,6 +7,14 @@ from src.hotkey import HotKey
 
 
 class Anchor:
+
+    ACTIONS = ["left click", "right click", "double left click"]
+    ACTION_BUTTON_CLICKS = {
+        "left click": (MouseButton.left, 1),
+        "right click": (MouseButton.right, 1),
+        "double left click": (MouseButton.left, 2)
+    }
+
     def __init__(self, root, index, mouse, notifier):
         '''
         Instanced class to hold sets of hotkeys and ui components
@@ -17,18 +25,25 @@ class Anchor:
         self.anchor_frame = tk.Frame(self.root)
         self.anchor_frame.grid()
         self.notifier = notifier
+        self.mouse_position = None
 
-        # initialize UI elements
+        self._init_ui()
+        self._init_hotkeys()
+
+        self.action_combobox.current(0)
+
+    def _init_ui(self):
+        '''Initialize UI elements and configure grid layout.'''
         self.record_position_label = tk.Label(self.anchor_frame)
         self.record_position_entry = tk.Entry(self.anchor_frame)
-        self.record_position_button = tk.Button(self.anchor_frame, text="Set", command=lambda: self.record_hotkey.start_capturing())
+        self.record_position_button = tk.Button(self.anchor_frame, text="Set")
 
         self.click_position_label = tk.Label(self.anchor_frame)
         self.click_position_entry = tk.Entry(self.anchor_frame)
-        self.click_position_button = tk.Button(self.anchor_frame, text="Set", command=lambda: self.click_hotkey.start_capturing())
+        self.click_position_button = tk.Button(self.anchor_frame, text="Set")
 
         self.action_label = tk.Label(self.anchor_frame)
-        self.action_combobox = ttk.Combobox(self.anchor_frame, values=["left click", "right click", "double left click"])
+        self.action_combobox = ttk.Combobox(self.anchor_frame, values=Anchor.ACTIONS)
         self.remove_anchor_button = tk.Button(self.anchor_frame, text="Delete")
 
         self.separator = tk.Label(self.anchor_frame, text="")
@@ -40,18 +55,10 @@ class Anchor:
             self.action_label, self.action_combobox, self.remove_anchor_button, self.separator
         ]
 
-        # initialize hotkeys
-        self.record_hotkey = HotKey(self.record_position_entry, self.record_position)
-        self.click_hotkey = HotKey(self.click_position_entry, self.click_position)
-        self.record_hotkey.hotkey.set(f'ctrl+alt+{index+1}')
-        self.click_hotkey.hotkey.set(f'alt+{index+1}')
-        self.record_hotkey.activate()
-        self.click_hotkey.activate()
+        # Set the grid layout
+        self._grid_ui_elements()
 
-        self.action_combobox.current(0)
-
-
-    def grid_ui_elements(self):
+    def _grid_ui_elements(self):
         '''
         Called after creation to align ui components
         '''
@@ -73,20 +80,26 @@ class Anchor:
 
         self.separator.grid(row=self.index*5+3, column=0, pady=2)  # Add vertical padding between anchors
 
-    def record_position(self):
+    def _init_hotkeys(self):
+        '''Initialize hotkeys and bind them to their corresponding functions.'''
+        self.record_hotkey = HotKey(self.record_position_entry, self._record_position)
+        self.click_hotkey = HotKey(self.click_position_entry, self._click_position)
+        self.record_hotkey.hotkey.set(f'ctrl+alt+{self.index+1}')
+        self.click_hotkey.hotkey.set(f'alt+{self.index+1}')
+        self.record_hotkey.activate()
+        self.click_hotkey.activate()
+
+    def _record_position(self):
         self.mouse_position = self.mouse.position
         self.notifier.notify()
 
-    def click_position(self):
+    def _click_position(self):
+        '''Perform the configured action at the recorded mouse position.'''
         if self.mouse_position:
             self.mouse.position = self.mouse_position
             action = self.action_combobox.get()
-            if action == "left click":
-                self.mouse.click(MouseButton.left)
-            elif action == "right click":
-                self.mouse.click(MouseButton.right)
-            elif action == "double left click":
-                self.mouse.click(MouseButton.left, 2)
+            button, clicks = Anchor.ACTION_BUTTON_CLICKS.get(action, (MouseButton.left, 1))
+            self.mouse.click(button, clicks)
 
     def destroy(self, save=True):
         self.record_hotkey.deactivate()
@@ -115,6 +128,8 @@ class Anchor:
         new_anchor.click_hotkey.hotkey.set(anchor_dict['click_hotkey'])
         if anchor_dict['mouse_position']:
             new_anchor.mouse_position = anchor_dict['mouse_position']
+        else:
+            new_anchor.mouse_position = None
         new_anchor.action_combobox.set(anchor_dict['action'])
         if remove_callback:
             new_anchor.remove_anchor_button['command'] = remove_callback
