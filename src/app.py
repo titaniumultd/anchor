@@ -8,7 +8,7 @@ from pynput.mouse import Controller as MouseController
 
 from src.common.anchor import ANAnchor
 from src.common.singleton import ANSingleton
-from src.notifier import Notifier
+from src.common.notifier import ANNotifier
 
 logging.basicConfig(filename='error.log', level=logging.INFO)
 MAX_ANCHORS = 5
@@ -22,7 +22,7 @@ class App(ANSingleton):
         self.root.grid_columnconfigure(1, weight=1)
         self.root.grid_rowconfigure(0, weight=1)
 
-        self.notifier = Notifier()
+        self.notifier = ANNotifier()
         self.notifier.register_listener(self)
 
         self.mouse = MouseController()
