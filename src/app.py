@@ -7,22 +7,14 @@ from pathlib import Path
 from pynput.mouse import Controller as MouseController
 
 from src.common.anchor import ANAnchor
+from src.common.singleton import ANSingleton
 from src.notifier import Notifier
 
 logging.basicConfig(filename='error.log', level=logging.INFO)
 MAX_ANCHORS = 5
 
 
-class Singleton:
-    _instance = None
-
-    def __new__(cls, *args, **kwargs):
-        if not cls._instance:
-            cls._instance = super(Singleton, cls).__new__(cls, *args, **kwargs)
-        return cls._instance
-
-
-class App(Singleton):
+class App(ANSingleton):
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Anchor")
