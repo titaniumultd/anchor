@@ -6,7 +6,7 @@ from pathlib import Path
 
 from pynput.mouse import Controller as MouseController
 
-from src.anchor import Anchor
+from src.common.anchor import ANAnchor
 from src.notifier import Notifier
 
 logging.basicConfig(filename='error.log', level=logging.INFO)
@@ -68,7 +68,7 @@ class App(Singleton):
     def drop_an_anchor(self):
         if len(self.anchors) >= MAX_ANCHORS:
             return
-        new_anchor = Anchor(self.root, len(self.anchors), self.mouse, self.notifier)
+        new_anchor = ANAnchor(self.root, len(self.anchors), self.mouse, self.notifier)
         new_anchor.remove_anchor_button['command'] = lambda anchor=new_anchor: self.remove_anchor(anchor)
         self.anchors.append(new_anchor)
 
@@ -119,7 +119,7 @@ class App(Singleton):
             if self.current_profile in profiles:
                 anchors = profiles[self.current_profile]
                 for anchor_dict in anchors:
-                    new_anchor = Anchor.from_dict(anchor_dict, self.root, self.mouse, self.notifier)
+                    new_anchor = ANAnchor.from_dict(anchor_dict, self.root, self.mouse, self.notifier)
                     new_anchor.remove_anchor_button['command'] = lambda anchor=new_anchor: self.remove_anchor(anchor)
                     self.anchors.append(new_anchor)
             else:
@@ -190,7 +190,7 @@ class App(Singleton):
                 anchors = profiles[selected_profile]
 
                 for anchor_dict in anchors:
-                    new_anchor = Anchor.from_dict(anchor_dict, self.root, self.mouse, self.notifier)
+                    new_anchor = ANAnchor.from_dict(anchor_dict, self.root, self.mouse, self.notifier)
                     new_anchor.remove_anchor_button['command'] = lambda anchor=new_anchor: self.remove_anchor(anchor)
                     self.anchors.append(new_anchor)
 
