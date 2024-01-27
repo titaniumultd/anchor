@@ -6,7 +6,7 @@ from pynput.mouse import Button as MouseButton
 from src.hotkey import HotKey
 
 
-class Anchor:
+class ANAnchor:
 
     ACTIONS = ["left click", "right click", "double left click"]
     ACTION_BUTTON_CLICKS = {
@@ -43,7 +43,7 @@ class Anchor:
         self.click_position_button = tk.Button(self.anchor_frame, text="Set")
 
         self.action_label = tk.Label(self.anchor_frame)
-        self.action_combobox = ttk.Combobox(self.anchor_frame, values=Anchor.ACTIONS)
+        self.action_combobox = ttk.Combobox(self.anchor_frame, values=ANAnchor.ACTIONS)
         self.remove_anchor_button = tk.Button(self.anchor_frame, text="Delete")
 
         self.separator = tk.Label(self.anchor_frame, text="")
@@ -98,7 +98,7 @@ class Anchor:
         if self.mouse_position:
             self.mouse.position = self.mouse_position
             action = self.action_combobox.get()
-            button, clicks = Anchor.ACTION_BUTTON_CLICKS.get(action, (MouseButton.left, 1))
+            button, clicks = ANAnchor.ACTION_BUTTON_CLICKS.get(action, (MouseButton.left, 1))
             self.mouse.click(button, clicks)
 
     def destroy(self, save=True):
@@ -123,7 +123,7 @@ class Anchor:
 
     @staticmethod
     def from_dict(anchor_dict, root, mouse, notifier, remove_callback=None):
-        new_anchor = Anchor(root, anchor_dict['index'], mouse, notifier)
+        new_anchor = ANAnchor(root, anchor_dict['index'], mouse, notifier)
         new_anchor.record_hotkey.hotkey.set(anchor_dict['record_hotkey'])
         new_anchor.click_hotkey.hotkey.set(anchor_dict['click_hotkey'])
         if anchor_dict['mouse_position']:
