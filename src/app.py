@@ -10,6 +10,8 @@ from src.common.anchor import ANAnchor
 from src.common.singleton import ANSingleton
 from src.common.notifier import ANNotifier
 
+from src.engine.engine import ANEngine
+
 logging.basicConfig(filename='error.log', level=logging.INFO)
 MAX_ANCHORS = 5
 
@@ -18,6 +20,10 @@ class App(ANSingleton):
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Anchor")
+
+        self._engine = ANEngine()
+        self._engine.load()
+
         self.root.grid_columnconfigure(0, weight=1)
         self.root.grid_columnconfigure(1, weight=1)
         self.root.grid_rowconfigure(0, weight=1)
