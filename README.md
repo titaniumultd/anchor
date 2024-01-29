@@ -19,11 +19,11 @@
     - [ ] App/Tray icon
     - [ ] Minimize to hidden icons
     - [ ] Make pretty
+    - [ ] Localization?
 - [ ] UX overhaul
     - [ ] Keybind creation
     - [x] Remove add/delete
     - [ ] Drag and Drop workflow
-    - [ ] Localization?
 - [ ] Release
     - [ ] Executable/install
     - [ ] Press release
