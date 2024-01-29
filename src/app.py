@@ -37,9 +37,9 @@ class App(ANSingleton):
         # self.profiles_combobox.bind("<<ComboboxSelected>>", self.switch_profile)
 
     def run(self):
-        self._engine.load()
-
         self.activate_hotkeys_button.grid(row=1, column=0, sticky='e', padx=5, pady=(20, 0))
+
+        self._engine.load()
 
         self.root.mainloop()
 
