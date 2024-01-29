@@ -17,3 +17,7 @@ class ANAnchorsControllerInterface(ABC):
         Returns the anchors in a list.
         """
         pass
+
+    @abstractmethod
+    def save_anchors(self) -> None:
+        pass

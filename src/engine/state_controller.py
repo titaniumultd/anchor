@@ -27,6 +27,12 @@ class ANStateController(ANStateControllerInterface, object):
 
     def get_state(self) -> dict:
         return self._state
+    
+    def update_state(self, key: str, value) -> None:
+        if key is not None and value is not None:
+            self._state[key] = value
+
+            self.save_state()
 
     # Private Methods
 

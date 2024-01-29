@@ -38,6 +38,13 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
     def get_anchors(self) -> list:
         return self._anchors
     
+    def save_anchors(self) -> None:
+        profile_controller = self._get_profile_controller()
+
+        if profile_controller.has_profiles():
+            current_profile = profile_controller.get_current_profile()
+            profile_controller.update_profile(current_profile, [anchor.to_dict() for anchor in self._anchors])
+    
     # Private Methods
 
     def _get_root(self):
@@ -69,10 +76,11 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
         return []
     
     def _drop_an_anchor(self):
+        # to-do: clean-up
         if len(self._anchors) >= MAX_ANCHORS:
             return
+        
         new_anchor = ANAnchor(self._get_root(), len(self._anchors), self._get_mouse(), self._get_notifier())
         self._anchors.append(new_anchor)
-
-        self._get_state_controller().save_state()
+        self.save_anchors()
     

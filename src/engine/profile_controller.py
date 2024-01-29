@@ -21,9 +21,6 @@ class ANProfileController(ANProfileControllerInterface, object):
     # Public Methods
 
     def load_profiles(self) -> None:
-        # self.profiles_combobox['values'] = list(state['profiles'].keys())
-        # self.profiles_combobox.set(state['last_profile'])
-
         state = self._get_state_controller().get_state()
 
         self._last_profile = state['last_profile']
@@ -45,6 +42,11 @@ class ANProfileController(ANProfileControllerInterface, object):
     
     def get_profiles(self) -> dict:
         return self._profiles
+    
+    def update_profile(self, name: str, data) -> None:
+        if name is not None and data is not None:
+            self._profiles[name] = data
+            self._get_state_controller().update_state("profiles", self._profiles)
 
     # Private Methods
             

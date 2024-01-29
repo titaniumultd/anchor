@@ -9,11 +9,11 @@ from src.common.notifier import ANNotifier
 
 from src.engine.engine import ANEngine
 
-logging.basicConfig(filename='error.log', level=logging.INFO)
-
 
 class App(ANSingleton):
     def __init__(self):
+        logging.basicConfig(filename='error.log', level=logging.INFO)
+        
         self.root = tk.Tk()
         self.root.title("Anchor")
 
@@ -41,7 +41,6 @@ class App(ANSingleton):
 
         self.activate_hotkeys_button.grid(row=1, column=0, sticky='e', padx=5, pady=(20, 0))
 
-
         self.root.mainloop()
 
     def activate_hotkeys(self):
@@ -50,10 +49,7 @@ class App(ANSingleton):
             anchor.click_hotkey.activate()
 
     def update(self):
-        self._save_state()
-
-    def _save_state(self):
-        self._engine.get_state_controller().save_state()
+        self._engine.get_anchors_controller().save_anchors()
 
     @property
     def anchors(self):

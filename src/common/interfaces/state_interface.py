@@ -21,4 +21,8 @@ class ANStateControllerInterface(ABC):
     @abstractmethod
     def get_state(self) -> dict:
         pass
+
+    @abstractmethod
+    def update_state(self, key: str, value) -> None:
+        pass
    

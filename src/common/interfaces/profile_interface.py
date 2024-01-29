@@ -26,3 +26,7 @@ class ANProfileControllerInterface(ABC):
     @abstractmethod
     def get_profiles(self) -> dict:
         pass
+
+    @abstractmethod
+    def update_profile(self, name: str, data) -> None:
+        pass
