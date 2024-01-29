@@ -23,6 +23,7 @@
     - [ ] Keybind creation
     - [x] Remove add/delete
     - [ ] Drag and Drop workflow
+    - [ ] Localization?
 - [ ] Release
     - [ ] Executable/install
     - [ ] Press release
