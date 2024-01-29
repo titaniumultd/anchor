@@ -8,11 +8,10 @@ from src.hotkey import HotKey
 
 class ANAnchor:
 
-    ACTIONS = ["left click", "right click", "double left click"]
+    ACTIONS = ["left click", "right click"]
     ACTION_BUTTON_CLICKS = {
         "left click": (MouseButton.left, 1),
-        "right click": (MouseButton.right, 1),
-        "double left click": (MouseButton.left, 2)
+        "right click": (MouseButton.right, 1)
     }
 
     def __init__(self, root, index, mouse, notifier):
@@ -44,7 +43,6 @@ class ANAnchor:
 
         self.action_label = tk.Label(self.anchor_frame)
         self.action_combobox = ttk.Combobox(self.anchor_frame, values=ANAnchor.ACTIONS)
-        self.remove_anchor_button = tk.Button(self.anchor_frame, text="Delete")
 
         self.separator = tk.Label(self.anchor_frame, text="")
 
@@ -52,7 +50,7 @@ class ANAnchor:
         self.ui_elements = [
             self.record_position_label, self.record_position_entry, self.record_position_button,
             self.click_position_label, self.click_position_entry, self.click_position_button,
-            self.action_label, self.action_combobox, self.remove_anchor_button, self.separator
+            self.action_label, self.action_combobox, self.separator
         ]
 
         # Set the grid layout
@@ -75,8 +73,6 @@ class ANAnchor:
         self.action_label.config(text=f"Action {self.index+1}:")
         self.action_label.grid(row=self.index*5+2, column=0, pady=2)
         self.action_combobox.grid(row=self.index*5+2, column=1)
-
-        self.remove_anchor_button.grid(row=self.index*5+2, column=2, padx=3)
 
         self.separator.grid(row=self.index*5+3, column=0, pady=2)  # Add vertical padding between anchors
 
@@ -131,6 +127,5 @@ class ANAnchor:
         else:
             new_anchor.mouse_position = None
         new_anchor.action_combobox.set(anchor_dict['action'])
-        if remove_callback:
-            new_anchor.remove_anchor_button['command'] = remove_callback
+
         return new_anchor

@@ -11,16 +11,18 @@
 
 ### To-Do
 - [ ] Feature reduction
-    - [ ] Remove profiles
-    - [ ] Remove double-click
+    - [-] Remove profiles
+        - **Incomplete**
+    - [x] Remove double-click
 - [ ] UI overhaul
     - [ ] Scale buttons/Anchor to fixed size
     - [ ] App/Tray icon
     - [ ] Minimize to hidden icons
     - [ ] Make pretty
+    - [ ] Localization?
 - [ ] UX overhaul
     - [ ] Keybind creation
-    - [ ] Remove add/delete
+    - [x] Remove add/delete
     - [ ] Drag and Drop workflow
 - [ ] Release
     - [ ] Executable/install

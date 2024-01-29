@@ -39,7 +39,6 @@ class App(ANSingleton):
         self.current_profile = 'default'
         self.anchors = []
 
-        self.add_anchor_button = tk.Button(self.root, text="New Anchor", command=self.drop_an_anchor)
         self.activate_hotkeys_button = tk.Button(self.root, text="Activate hotkeys", command=self.activate_hotkeys)
 
         self.profiles_combobox = ttk.Combobox(self.root, width=10)
@@ -49,16 +48,11 @@ class App(ANSingleton):
         self.profiles_combobox.bind("<<ComboboxSelected>>", self.switch_profile)
 
     def run(self):
-        self.profiles_combobox.grid(row=0, column=0)
-        self.new_profile_button.grid(row=0, column=0, sticky="w")
-        self.delete_profile_button.grid(row=0, column=0, padx=15, sticky="e")
-
-        self.add_anchor_button.grid(row=1, column=0, sticky='w', padx=5, pady=(20, 0))
         self.activate_hotkeys_button.grid(row=1, column=0, sticky='e', padx=5, pady=(20, 0))
 
         if self.load_state():
             self.activate_hotkeys()
-        if len(self.anchors) == 0:
+        while len(self.anchors) < MAX_ANCHORS:
             self.drop_an_anchor()
 
         self.root.mainloop()
@@ -67,18 +61,7 @@ class App(ANSingleton):
         if len(self.anchors) >= MAX_ANCHORS:
             return
         new_anchor = ANAnchor(self.root, len(self.anchors), self.mouse, self.notifier)
-        new_anchor.remove_anchor_button['command'] = lambda anchor=new_anchor: self.remove_anchor(anchor)
         self.anchors.append(new_anchor)
-
-        self.save_state()
-
-    def remove_anchor(self, anchor):
-        index = self.anchors.index(anchor)
-        self.anchors.remove(anchor)
-        anchor.destroy()
-
-        for i in range(index, len(self.anchors)):
-            self.anchors[i].index = i
 
         self.save_state()
 
@@ -118,7 +101,6 @@ class App(ANSingleton):
                 anchors = profiles[self.current_profile]
                 for anchor_dict in anchors:
                     new_anchor = ANAnchor.from_dict(anchor_dict, self.root, self.mouse, self.notifier)
-                    new_anchor.remove_anchor_button['command'] = lambda anchor=new_anchor: self.remove_anchor(anchor)
                     self.anchors.append(new_anchor)
             else:
                 logging.error(f"No such profile: {self.current_profile}")
@@ -189,7 +171,6 @@ class App(ANSingleton):
 
                 for anchor_dict in anchors:
                     new_anchor = ANAnchor.from_dict(anchor_dict, self.root, self.mouse, self.notifier)
-                    new_anchor.remove_anchor_button['command'] = lambda anchor=new_anchor: self.remove_anchor(anchor)
                     self.anchors.append(new_anchor)
 
                 self.write_state_file(state)
