@@ -24,16 +24,6 @@ class ANStateController(ANStateControllerInterface, object):
         if self._state != None:
             self._write_state_file(self._state)
 
-        # old implementation
-        # self._state = self._read_state_file()
-
-        # if 'profiles' in state:
-        #     state['profiles'][self.current_profile] = [anchor.to_dict() for anchor in self.anchors]
-        #     state['last_profile'] = self.current_profile
-        #     self._write_state_file(state)
-        # else:
-        #     logging.error("Invalid state.json format in save_state. Expected a dictionary with 'profiles' key.")
-
     def get_state(self) -> dict:
         return self._state
 

@@ -36,5 +36,17 @@ class ANEngineInterface(ABC):
         pass
     
     @abstractmethod
+    def get_root(self): # to-do: Add typing
+        pass
+
+    @abstractmethod
+    def get_mouse(self): # to-do: Add typing
+        pass
+
+    @abstractmethod
+    def get_notifier(self): # to-do: Add typing
+        pass
+
+    @abstractmethod
     def load(self) -> None:
         pass

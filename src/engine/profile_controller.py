@@ -48,6 +48,4 @@ class ANProfileController(ANProfileControllerInterface, object):
     # Private Methods
             
     def _get_state_controller(self) -> ANStateControllerInterface:
-        assert self._engine() != None
-
         return self._engine().get_state_controller()

@@ -10,7 +10,15 @@ class ANEngine(ANEngineInterface, object):
     Class containing all internal business logic.
     """
 
-    def __init__(self):
+    def __init__(self,
+                 root,
+                 mouse,
+                 notifier):
+        # to-do: create root, mouse and notifier within engine
+        self._root = root
+        self._mouse = mouse
+        self._notifier = notifier
+
         self._state_controller = ANStateController()
         self._profile_controller = ANProfileController(self)
         self._anchors_controller = ANAnchorsController(self)
@@ -23,6 +31,15 @@ class ANEngine(ANEngineInterface, object):
 
     def get_state_controller(self):
         return self._state_controller
+    
+    def get_root(self):
+        return self._root
+
+    def get_mouse(self):
+        return self._mouse
+
+    def get_notifier(self):
+        return self._notifier
 
     def load(self) -> None:
         self._state_controller.load_state()

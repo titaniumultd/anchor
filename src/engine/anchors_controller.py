@@ -13,7 +13,8 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
     Manages anchors. To-Do: Separate Anchors from UI
     """
 
-    def __init__(self, engine: ANEngineInterface):
+    def __init__(self, 
+                 engine: ANEngineInterface):
         self._engine = weakref.ref(engine)
         self._anchors = []
 
@@ -26,19 +27,24 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
             current_profile = profile_controller.get_current_profile()
             raw_anchors = self._get_profile_anchors(current_profile)
             for anchor_dict in raw_anchors:
-                print(anchor_dict)
-                # new_anchor = ANAnchor.from_dict(anchor_dict, self.root, self.mouse, self.notifier)
-                # new_anchor.remove_anchor_button['command'] = lambda anchor=new_anchor: self.remove_anchor(anchor)
-                # self._anchors.append(new_anchor)
+                new_anchor = ANAnchor.from_dict(anchor_dict, self._get_root(), self._get_mouse(), self._get_notifier())
+                self._anchors.append(new_anchor)
 
     def get_anchors(self) -> list:
         return self._anchors
     
     # Private Methods
 
-    def _get_profile_controller(self) -> ANProfileControllerInterface:
-        assert self._engine() != None
+    def _get_root(self):
+        return self._engine().get_root()
+    
+    def _get_mouse(self):
+        return self._engine().get_mouse()
+    
+    def _get_notifier(self):
+        return self._engine().get_notifier()
 
+    def _get_profile_controller(self) -> ANProfileControllerInterface:
         return self._engine().get_profile_controller()
     
     def _get_profile_anchors(self, name: str) -> list:
@@ -53,3 +59,5 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
                 logging.error(f"No such profile: {name}")
 
         return []
+    
+    

@@ -21,9 +21,6 @@ class App(ANSingleton):
         self.root = tk.Tk()
         self.root.title("Anchor")
 
-        self._engine = ANEngine()
-        self._engine.load()
-
         self.root.grid_columnconfigure(0, weight=1)
         self.root.grid_columnconfigure(1, weight=1)
         self.root.grid_rowconfigure(0, weight=1)
@@ -32,6 +29,9 @@ class App(ANSingleton):
         self.notifier.register_listener(self)
 
         self.mouse = MouseController()
+
+        self._engine = ANEngine(self.root, self.mouse, self.notifier)
+        self._engine.load()
 
         self.state_file_path = Path('config/state.json')
         self.ensure_state_file_exists()
