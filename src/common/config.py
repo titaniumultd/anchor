@@ -1,0 +1,2 @@
+
+MAX_ANCHORS = 5

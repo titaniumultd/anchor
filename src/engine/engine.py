@@ -5,6 +5,7 @@ from src.engine.anchors_controller import ANAnchorsController
 from src.engine.profile_controller import ANProfileController
 from src.engine.state_controller import ANStateController
 
+
 class ANEngine(ANEngineInterface, object):
     """
     Class containing all internal business logic.
@@ -45,4 +46,9 @@ class ANEngine(ANEngineInterface, object):
         self._state_controller.load_state()
         self._profile_controller.load_profiles()
         self._anchors_controller.load_anchors()
+
+        # if self._engine.get_state_controller().load_state():
+        #     self.activate_hotkeys()
+        # while len(self.anchors) < MAX_ANCHORS:
+        #     self.drop_an_anchor()
     

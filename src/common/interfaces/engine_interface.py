@@ -5,6 +5,7 @@ from src.common.interfaces.anchors_interface import ANAnchorsControllerInterface
 from src.common.interfaces.profile_interface import ANProfileControllerInterface
 from src.common.interfaces.state_interface import ANStateControllerInterface
 
+
 class ANEngineInterface(ABC):
     """
     Interface declaration for the engine.

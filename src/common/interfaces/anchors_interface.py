@@ -1,6 +1,7 @@
 
 from abc import ABC, abstractmethod
 
+
 class ANAnchorsControllerInterface(ABC):
     """
     Interface declaration for the anchors controller.

@@ -1,6 +1,7 @@
 
 from abc import ABC, abstractmethod
 
+
 class ANStateControllerInterface(ABC):
     """
     Interface declaration for the state controller.

@@ -1,6 +1,7 @@
 
 from abc import ABC, abstractmethod
 
+
 class ANProfileControllerInterface(ABC):
     """
     Interface declaration for the profle controller.

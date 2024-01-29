@@ -5,6 +5,7 @@ from pathlib import Path
 
 from src.common.interfaces.state_interface import ANStateControllerInterface
 
+
 class ANStateController(ANStateControllerInterface, object):
     """
     Manages the application state.
