@@ -18,9 +18,13 @@ class App(ANSingleton):
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Anchor")
-        self.root.grid_columnconfigure(0, weight=1)
-        self.root.grid_columnconfigure(1, weight=1)
-        self.root.grid_rowconfigure(0, weight=1)
+        # Removing the weights mean we don't allow this to resize when the window is resized. This is better for UI consistency 
+        #self.root.grid_columnconfigure(0, weight=1)
+        #self.root.grid_columnconfigure(1, weight=1)
+        #self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_columnconfigure(0)
+        self.root.grid_columnconfigure(3) #3 columns for consistency of the app, otherwise you run into different column # inconsistency issues.
+        self.root.grid_rowconfigure(0)
 
         self.notifier = ANNotifier()
         self.notifier.register_listener(self)

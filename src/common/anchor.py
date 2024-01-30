@@ -22,7 +22,7 @@ class ANAnchor:
         self.index = index
         self.mouse = mouse
         self.anchor_frame = tk.Frame(self.root)
-        self.anchor_frame.grid()
+        self.anchor_frame.grid(columnspan=3) #This forces the newly added Anchors to span the 3 columns in the original grid
         self.notifier = notifier
         self.mouse_position = None
 
@@ -45,6 +45,7 @@ class ANAnchor:
         self.action_combobox = ttk.Combobox(self.anchor_frame, values=ANAnchor.ACTIONS)
 
         self.separator = tk.Label(self.anchor_frame, text="")
+        
 
         # group all the elements in the frame
         self.ui_elements = [
@@ -60,21 +61,21 @@ class ANAnchor:
         '''
         Called after creation to align ui components
         '''
-        self.record_position_label.config(text=f"Drop Anchor {self.index+1}:")
-        self.record_position_label.grid(row=self.index*5, column=0, pady=2)
-        self.record_position_entry.grid(row=self.index*5, column=1)
-        self.record_position_button.grid(row=self.index*5, column=2)
+        self.record_position_label.config(text=f"Drop Anchor {self.index+1}:", justify="right")
+        self.record_position_label.grid(row=self.index*5, column=0, padx=8, pady=2, sticky="e")
+        self.record_position_entry.grid(row=self.index*5, column=1, sticky="ew")
+        self.record_position_button.grid(row=self.index*5, column=2, padx=8, sticky="ew")
 
-        self.click_position_label.config(text=f"Hotkey {self.index+1}:")
-        self.click_position_label.grid(row=self.index*5+1, column=0, pady=2)
-        self.click_position_entry.grid(row=self.index*5+1, column=1)
-        self.click_position_button.grid(row=self.index*5+1, column=2)
+        self.click_position_label.config(text=f"Hotkey {self.index+1}:", justify="right")
+        self.click_position_label.grid(row=self.index*5+1, column=0, padx=8, pady=2, sticky="e")
+        self.click_position_entry.grid(row=self.index*5+1, column=1, sticky="ew")
+        self.click_position_button.grid(row=self.index*5+1, column=2, padx=8, sticky="ew")
 
-        self.action_label.config(text=f"Action {self.index+1}:")
-        self.action_label.grid(row=self.index*5+2, column=0, pady=2)
-        self.action_combobox.grid(row=self.index*5+2, column=1)
+        self.action_label.config(text=f"Action {self.index+1}:", justify="right")
+        self.action_label.grid(row=self.index*5+2, column=0, padx=8, pady=2, sticky="e")
+        self.action_combobox.grid(row=self.index*5+2, column=1, sticky="ew")
 
-        self.separator.grid(row=self.index*5+3, column=0, pady=2)  # Add vertical padding between anchors
+        self.separator.grid(row=self.index*5+3, column=0, pady=7)  # Add vertical padding between anchors
 
     def _init_hotkeys(self):
         '''Initialize hotkeys and bind them to their corresponding functions.'''
