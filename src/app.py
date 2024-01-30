@@ -24,7 +24,7 @@ class App(ANSingleton):
         #self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0)
         self.root.grid_columnconfigure(3) #3 columns for consistency of the app, otherwise you run into different column # inconsistency issues.
-        self.root.grid_rowconfigure(0)
+        self.root.grid_rowconfigure(5)
 
         self.notifier = ANNotifier()
         self.notifier.register_listener(self)
@@ -37,7 +37,7 @@ class App(ANSingleton):
         self.current_profile = 'default'
         self.anchors = []
 
-        self.activate_hotkeys_button = tk.Button(self.root, text="Activate hotkeys", command=self.activate_hotkeys)
+        self.activate_hotkeys_button = tk.Checkbutton(self.root, text="Activate hotkeys", command=self.activate_hotkeys) #Should be a check button or toggle, being able to turn something on but not off is weird.
 
         self.profiles_combobox = ttk.Combobox(self.root, width=10)
         self.new_profile_button = tk.Button(self.root, text="New Profile", command=self.create_new_profile)
@@ -46,13 +46,13 @@ class App(ANSingleton):
         self.profiles_combobox.bind("<<ComboboxSelected>>", self.switch_profile)
 
     def run(self):
-        self.activate_hotkeys_button.grid(row=1, column=0, sticky='e', padx=5, pady=(20, 0))
-
+        self.separator_top = tk.Label(self.root, text="")
+        self.separator_top.grid()
         if self.load_state():
             self.activate_hotkeys()
         while len(self.anchors) < MAX_ANCHORS:
             self.drop_an_anchor()
-
+        self.activate_hotkeys_button.grid(column=2, sticky='e', padx=5, pady=(0, 3))
         self.root.mainloop()
 
     def drop_an_anchor(self):
