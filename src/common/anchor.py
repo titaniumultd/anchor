@@ -3,7 +3,7 @@ from tkinter import ttk
 
 from pynput.mouse import Button as MouseButton
 
-from src.hotkey import HotKey
+from src.common.hotkey import ANHotKey
 
 
 class ANAnchor:
@@ -78,8 +78,8 @@ class ANAnchor:
 
     def _init_hotkeys(self):
         '''Initialize hotkeys and bind them to their corresponding functions.'''
-        self.record_hotkey = HotKey(self.record_position_entry, self._record_position)
-        self.click_hotkey = HotKey(self.click_position_entry, self._click_position)
+        self.record_hotkey = ANHotKey(self.record_position_entry, self._record_position)
+        self.click_hotkey = ANHotKey(self.click_position_entry, self._click_position)
         self.record_hotkey.hotkey.set(f'ctrl+alt+{self.index+1}')
         self.click_hotkey.hotkey.set(f'alt+{self.index+1}')
         self.record_hotkey.activate()

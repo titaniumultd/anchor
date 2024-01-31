@@ -5,7 +5,7 @@ import logging
 logging.basicConfig(filename='error.log', level=logging.INFO)
 
 
-class HotKey:
+class ANHotKey:
     """
     Class to hold the individual hotkeys and provide services to set and activate the hotkeys.
     """
