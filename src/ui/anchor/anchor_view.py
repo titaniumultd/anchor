@@ -20,9 +20,17 @@ class ANAnchorView(ANFrame):
                  anchor):
         self._anchor = anchor
 
+        self._click_hotkey = tk.StringVar(value = anchor.click_hotkey.hotkey)
+        self._record_hotkey = tk.StringVar(value = anchor.record_hotkey.hotkey)
+
         super().__init__(master, engine)
 
     def load_subviews(self):
+        self._init_subviews()
+        self._layout_subviews()
+        self._set_subview_content()
+
+    def _init_subviews(self):
         self.columnconfigure((0, 1, 2), weight = 1)
         self.rowconfigure((0, 1, 2), weight = 1)
 
@@ -37,23 +45,29 @@ class ANAnchorView(ANFrame):
         self.action_label = tk.Label(self)
         self.action_combobox = ttk.Combobox(self, values=ANAnchor.ACTIONS)
 
-        # Layout
-
-        self.record_position_label.config(text=f"Drop Anchor {self.index + 1}:")
+    def _layout_subviews(self):
         self.record_position_label.grid(row = 0, column = 0, pady = Y_PADDING, sticky = 'e')
         self.record_position_entry.grid(row = 0, column = 1, padx = X_PADDING, pady = Y_PADDING, sticky = 'news')
         self.record_position_button.grid(row = 0, column = 2, sticky = 'w')
 
-        self.click_position_label.config(text=f"Hotkey {self.index + 1}:")
         self.click_position_label.grid(row = 1, column = 0, pady = Y_PADDING, sticky = 'e')
         self.click_position_entry.grid(row = 1, column = 1, padx = X_PADDING, pady = Y_PADDING, sticky = 'news')
         self.click_position_button.grid(row = 1, column = 2, sticky = 'w')
 
-        self.action_label.config(text=f"Action {self.index + 1}:")
         self.action_label.grid(row = 2, column = 0, pady = Y_PADDING, sticky = 'e')
         self.action_combobox.grid(row = 2, column = 1, padx = X_PADDING, pady = Y_PADDING, sticky = 'news')
 
         self.action_combobox.current(0)
+
+    def _set_subview_content(self):
+        self.record_position_label.config(text=f"Drop Anchor {self.index + 1}:")
+        self.record_position_entry.config(textvariable = self._record_hotkey)
+
+        self.click_position_label.config(text=f"Hotkey {self.index + 1}:")
+        self.click_position_entry.config(textvariable = self._click_hotkey)
+
+        self.action_label.config(text=f"Action {self.index + 1}:")
+        self.action_combobox.set(self._anchor.action)
 
     @property
     def index(self):

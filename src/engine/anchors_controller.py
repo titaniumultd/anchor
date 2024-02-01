@@ -85,7 +85,7 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
         if len(self._anchors) >= MAX_ANCHORS:
             return
         
-        new_anchor = ANAnchor(self._get_root(), len(self._anchors), self._get_mouse(), self._get_notifier())
+        new_anchor = ANAnchor(len(self._anchors), self._engine())
         self._anchors.append(new_anchor)
         self.save_anchors()
     

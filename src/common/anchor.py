@@ -59,9 +59,11 @@ class ANAnchor(object):
 
     def update_record_hotkey(self):
         self.record_hotkey.set_new_hotkey()
+        self.notifier.notify()
 
     def update_click_hotkey(self):
         self.click_hotkey.set_new_hotkey()
+        self.notifier.notify()
 
     def destroy(self, save=True):
         self.record_hotkey.deactivate()
@@ -87,6 +89,7 @@ class ANAnchor(object):
         new_anchor = ANAnchor(anchor_dict['index'], engine)
         new_anchor.record_hotkey.hotkey = anchor_dict['record_hotkey']
         new_anchor.click_hotkey.hotkey = anchor_dict['click_hotkey']
+        new_anchor.action = anchor_dict['action']
 
         if anchor_dict['mouse_position']:
             new_anchor.mouse_position = anchor_dict['mouse_position']
