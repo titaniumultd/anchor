@@ -2,7 +2,7 @@
 import logging
 import tkinter as tk
 
-from src.common.singleton import ANSingleton
+from src.common.config import SCREEN_WIDTH, SCREEN_HEIGHT
 from src.engine.engine import ANEngine
 from src.ui.root_view import ANRootView
 
@@ -13,6 +13,9 @@ class App(object):
         
         self.root = tk.Tk()
         self.root.title("Anchor")
+        self.root.geometry(f'{SCREEN_WIDTH}x{SCREEN_HEIGHT}')
+        self.root.minsize(SCREEN_WIDTH, SCREEN_HEIGHT)
+
         self._root_view = None
 
         self._engine = ANEngine(self.root)

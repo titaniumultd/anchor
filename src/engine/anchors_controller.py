@@ -29,7 +29,7 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
             current_profile = profile_controller.get_current_profile()
             raw_anchors = self._get_profile_anchors(current_profile)
             for anchor_dict in raw_anchors:
-                new_anchor = ANAnchor.from_dict(anchor_dict, self._get_root(), self._get_mouse(), self._get_notifier())
+                new_anchor = ANAnchor.from_dict(anchor_dict, self._engine())
                 self._anchors.append(new_anchor)
 
         while len(self._anchors) < MAX_ANCHORS:

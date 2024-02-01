@@ -9,11 +9,9 @@ class ANHotKey:
     """
     Class to hold the individual hotkeys and provide services to set and activate the hotkeys.
     """
-    def __init__(self, entry_field: tkinter.Entry, action: callable):
-        self.entry_field = entry_field
+    def __init__(self, action: callable):
         self.action = action
-        self.hotkey = tkinter.StringVar(value='')
-        self.entry_field.config(textvariable=self.hotkey)
+        self.hotkey = ''
         self.is_capturing = False
 
     def start_capturing(self) -> None:
@@ -49,7 +47,7 @@ class ANHotKey:
         """
         if self.is_capturing:
             self.stop_capturing()
-            self.hotkey.set('+'.join(self.captured_keys))
+            self.hotkey = '+'.join(self.captured_keys)
             self.captured_keys = []
         return False 
 
@@ -57,9 +55,9 @@ class ANHotKey:
         """
         Activate the registered hotkey.
         """
-        if self.hotkey.get():
+        if self.hotkey != None and len(self.hotkey) > 0:
             try:
-                keyboard.add_hotkey(self.hotkey.get(), self.action)
+                keyboard.add_hotkey(self.hotkey, self.action)
             except ValueError as err:
                 logging.error(f"Error activating hotkey: {err}")
 
@@ -68,7 +66,7 @@ class ANHotKey:
         Deactivate the registered hotkey.
         """
         try:
-            keyboard.remove_hotkey(self.hotkey.get())
+            keyboard.remove_hotkey(self.hotkey)
         except KeyError:
             pass
 
@@ -79,5 +77,5 @@ class ANHotKey:
         hotkey = keyboard.read_hotkey()
 
         self.deactivate()
-        self.hotkey.set(hotkey)
+        self.hotkey = hotkey
         self.activate()
