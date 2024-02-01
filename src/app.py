@@ -1,4 +1,4 @@
-
+import keyboard
 import logging
 import tkinter as tk
 
@@ -16,6 +16,7 @@ class App(ANSingleton):
         
         self.root = tk.Tk()
         self.root.title("Anchor")
+        self.root.protocol("WM_DELETE_WINDOW", self._close_window)
 
         self.root.grid_columnconfigure(0, weight=1)
         self.root.grid_columnconfigure(1, weight=1)
@@ -50,6 +51,10 @@ class App(ANSingleton):
 
     def update(self):
         self._engine.get_anchors_controller().save_anchors()
+
+    def _close_window(self) -> None:
+        keyboard.unhook_all()
+        self.root.destroy()
 
     @property
     def anchors(self):
