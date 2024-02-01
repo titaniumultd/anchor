@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from tkinter import ttk
 
@@ -35,11 +36,11 @@ class ANAnchor:
         '''Initialize UI elements and configure grid layout.'''
         self.record_position_label = tk.Label(self.anchor_frame)
         self.record_position_entry = tk.Entry(self.anchor_frame)
-        self.record_position_button = tk.Button(self.anchor_frame, text="Set")
+        self.record_position_button = tk.Button(self.anchor_frame, text="Set", command=self._update_record_hotkey)
 
         self.click_position_label = tk.Label(self.anchor_frame)
         self.click_position_entry = tk.Entry(self.anchor_frame)
-        self.click_position_button = tk.Button(self.anchor_frame, text="Set")
+        self.click_position_button = tk.Button(self.anchor_frame, text="Set", command=self._update_click_hotkey)
 
         self.action_label = tk.Label(self.anchor_frame)
         self.action_combobox = ttk.Combobox(self.anchor_frame, values=ANAnchor.ACTIONS)
@@ -96,6 +97,12 @@ class ANAnchor:
             action = self.action_combobox.get()
             button, clicks = ANAnchor.ACTION_BUTTON_CLICKS.get(action, (MouseButton.left, 1))
             self.mouse.click(button, clicks)
+
+    def _update_record_hotkey(self):
+        self.record_hotkey.set_new_hotkey()
+
+    def _update_click_hotkey(self):
+        self.click_hotkey.set_new_hotkey()
 
     def destroy(self, save=True):
         self.record_hotkey.deactivate()
