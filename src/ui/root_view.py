@@ -11,11 +11,11 @@ class ANRootView(ANFrame):
     """
 
     def load_subviews(self):
-        self.place(x = 0, y = 0, relwidth = 1, relheight = 1)
+        self.place(x=0, y=0, relwidth=1, relheight=1)
 
-        # tk.Label(self, background="red").place(x = 0, y = 0, relwidth = 1, relheight = 1)
+        # tk.Label(self, background="red").place(x=0, y=0, relwidth=1, relheight=1)
 
         self.anchor_settings = ANAnchorSettings(self, self.get_engine())
-        self.anchor_settings.pack(expand = True, fill = 'both', padx = 10, pady = 10)
+        self.anchor_settings.pack(expand=True, fill='both', padx=10, pady=10)
 
     
