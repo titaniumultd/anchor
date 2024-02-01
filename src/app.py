@@ -21,12 +21,6 @@ class App(ANSingleton):
 
         self.activate_hotkeys_button = tk.Button(self.root, text="Activate hotkeys", command=self.activate_hotkeys)
 
-        # self.profiles_combobox = ttk.Combobox(self.root, width=10)
-        # self.new_profile_button = tk.Button(self.root, text="New Profile", command=self.create_new_profile)
-        # self.delete_profile_button = tk.Button(self.root, text="Delete Profile", command=self.delete_profile)
-
-        # self.profiles_combobox.bind("<<ComboboxSelected>>", self.switch_profile)
-
     def run(self):
         self.activate_hotkeys_button.grid(row=1, column=0, sticky='e', padx=5, pady=(20, 0))
 
@@ -35,9 +29,7 @@ class App(ANSingleton):
         self.root.mainloop()
 
     def activate_hotkeys(self):
-        for anchor in self.anchors:
-            anchor.record_hotkey.activate()
-            anchor.click_hotkey.activate()
+        self._engine.get_anchors_controller().activate_hotkeys()
 
     @property
     def anchors(self):
