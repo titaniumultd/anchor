@@ -1,24 +1,24 @@
 
+from pynput.mouse import Controller as MouseController
+
 from src.common.interfaces.engine_interface import ANEngineInterface
+from src.common.notifier import ANNotifyListener, ANNotifier
 
 from src.engine.anchors_controller import ANAnchorsController
 from src.engine.profile_controller import ANProfileController
 from src.engine.state_controller import ANStateController
 
 
-class ANEngine(ANEngineInterface, object):
+class ANEngine(ANEngineInterface, ANNotifyListener, object):
     """
     Class containing all internal business logic.
     """
 
-    def __init__(self,
-                 root,
-                 mouse,
-                 notifier):
-        # to-do: create root, mouse and notifier within engine
+    def __init__(self, root):
         self._root = root
-        self._mouse = mouse
-        self._notifier = notifier
+        self._mouse = MouseController()
+        self._notifier = ANNotifier()
+        self._notifier.register_listener(self)
 
         self._state_controller = ANStateController()
         self._profile_controller = ANProfileController(self)
@@ -47,8 +47,8 @@ class ANEngine(ANEngineInterface, object):
         self._profile_controller.load_profiles()
         self._anchors_controller.load_anchors()
 
-        # if self._engine.get_state_controller().load_state():
-        #     self.activate_hotkeys()
-        # while len(self.anchors) < MAX_ANCHORS:
-        #     self.drop_an_anchor()
+    # ANNotifyListener
+        
+    def update(self):
+        self.get_anchors_controller().save_anchors()
     

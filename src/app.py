@@ -2,11 +2,7 @@
 import logging
 import tkinter as tk
 
-from pynput.mouse import Controller as MouseController
-
 from src.common.singleton import ANSingleton
-from src.common.notifier import ANNotifier
-
 from src.engine.engine import ANEngine
 
 
@@ -21,12 +17,7 @@ class App(ANSingleton):
         self.root.grid_columnconfigure(1, weight=1)
         self.root.grid_rowconfigure(0, weight=1)
 
-        self.notifier = ANNotifier()
-        self.notifier.register_listener(self)
-
-        self.mouse = MouseController()
-
-        self._engine = ANEngine(self.root, self.mouse, self.notifier)
+        self._engine = ANEngine(self.root)
 
         self.activate_hotkeys_button = tk.Button(self.root, text="Activate hotkeys", command=self.activate_hotkeys)
 
@@ -47,9 +38,6 @@ class App(ANSingleton):
         for anchor in self.anchors:
             anchor.record_hotkey.activate()
             anchor.click_hotkey.activate()
-
-    def update(self):
-        self._engine.get_anchors_controller().save_anchors()
 
     @property
     def anchors(self):
