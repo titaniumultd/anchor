@@ -74,7 +74,9 @@ class ANAnchorView(ANFrame):
         return self._anchor.index
 
     def _update_record_hotkey(self):
-        pass
+        self._anchor.update_record_hotkey()
+        self._record_hotkey.set(self._anchor.record_hotkey.hotkey)
 
     def _update_click_hotkey(self):
-        pass
+        self._anchor.update_click_hotkey()
+        self._click_hotkey.set(self._anchor.click_hotkey.hotkey)
