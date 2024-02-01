@@ -6,7 +6,7 @@ from src.common.interfaces.engine_interface import ANEngineInterface
 
 class ANFrame(tk.Frame):
     """
-    Top level anchor settings view container. Should contain a list of anchors, editable by the user.
+    Frame base class that automatically saves the engine as a weak reference.
     """
     
     def __init__(self, 
