@@ -1,8 +1,6 @@
-
 from abc import ABC, abstractmethod
 
 from src.common.interfaces.anchors_interface import ANAnchorsControllerInterface
-#from src.common.interfaces.profile_interface import ANProfileControllerInterface
 from src.common.interfaces.state_interface import ANStateControllerInterface
 
 
@@ -27,10 +25,6 @@ class ANEngineInterface(ABC):
     @abstractmethod
     def get_anchors_controller(self) -> ANAnchorsControllerInterface:
         pass
-
-    @abstractmethod
-#    def get_profile_controller(self) -> ANProfileControllerInterface:
-#        pass
 
     @abstractmethod
     def get_state_controller(self) -> ANStateControllerInterface:
