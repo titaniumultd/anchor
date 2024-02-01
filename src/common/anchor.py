@@ -5,24 +5,29 @@ from tkinter import ttk
 from pynput.mouse import Button as MouseButton
 
 from src.common.hotkey import ANHotKey
+from src.common.config import ACTION_LEFT_CLICK, ACTION_RIGHT_CLICK
 
 
 class ANAnchor:
 
-    ACTIONS = ["left click", "right click"]
+    ACTIONS = [
+        ACTION_LEFT_CLICK, 
+        ACTION_RIGHT_CLICK
+    ]
+    
     ACTION_BUTTON_CLICKS = {
-        "left click": (MouseButton.left, 1),
-        "right click": (MouseButton.right, 1)
+        ACTION_LEFT_CLICK: (MouseButton.left, 1),
+        ACTION_RIGHT_CLICK: (MouseButton.right, 1)
     }
 
-    def __init__(self, root, index, mouse, notifier):
+    def __init__(self, master, index, mouse, notifier):
         '''
         Instanced class to hold sets of hotkeys and ui components
         '''
-        self.root = root
+        self.master = master
         self.index = index
         self.mouse = mouse
-        self.anchor_frame = tk.Frame(self.root)
+        self.anchor_frame = tk.Frame(self.master)
         self.anchor_frame.grid()
         self.notifier = notifier
         self.mouse_position = None
@@ -33,7 +38,9 @@ class ANAnchor:
         self.action_combobox.current(0)
 
     def _init_ui(self):
-        '''Initialize UI elements and configure grid layout.'''
+        '''
+        Initialize UI elements and configure grid layout.
+        '''
         self.record_position_label = tk.Label(self.anchor_frame)
         self.record_position_entry = tk.Entry(self.anchor_frame)
         self.record_position_button = tk.Button(self.anchor_frame, text="Set", command=self._update_record_hotkey)
