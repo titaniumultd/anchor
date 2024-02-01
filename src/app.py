@@ -4,9 +4,8 @@ import tkinter as tk
 
 from pynput.mouse import Controller as MouseController
 
-from src.common.singleton import ANSingleton
 from src.common.notifier import ANNotifier
-
+from src.common.singleton import ANSingleton
 from src.engine.engine import ANEngine
 
 
@@ -28,16 +27,10 @@ class App(ANSingleton):
 
         self._engine = ANEngine(self.root, self.mouse, self.notifier)
 
-        self.activate_hotkeys_button = tk.Button(self.root, text="Activate hotkeys", command=self.activate_hotkeys)
-
-        # self.profiles_combobox = ttk.Combobox(self.root, width=10)
-        # self.new_profile_button = tk.Button(self.root, text="New Profile", command=self.create_new_profile)
-        # self.delete_profile_button = tk.Button(self.root, text="Delete Profile", command=self.delete_profile)
-
-        # self.profiles_combobox.bind("<<ComboboxSelected>>", self.switch_profile)
+        #self.activate_hotkeys_button = tk.Button(self.root, text="Activate hotkeys", command=self.activate_hotkeys) # replace with global activation tickbox
 
     def run(self):
-        self.activate_hotkeys_button.grid(row=1, column=0, sticky='e', padx=5, pady=(20, 0))
+        #self.activate_hotkeys_button.grid(row=1, column=0, sticky='e', padx=5, pady=(20, 0))
 
         self._engine.load()
 
