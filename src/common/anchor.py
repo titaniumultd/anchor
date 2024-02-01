@@ -1,5 +1,6 @@
 
 import tkinter as tk
+import threading
 from tkinter import ttk
 
 from pynput.mouse import Button as MouseButton
@@ -99,8 +100,8 @@ class ANAnchor:
             self.mouse.click(button, clicks)
 
     def _update_record_hotkey(self):
-        self.record_hotkey.set_new_hotkey()
-
+        threading.Thread(target=self.record_hotkey.set_new_hotkey, daemon=True).start()
+        
     def _update_click_hotkey(self):
         self.click_hotkey.set_new_hotkey()
 
