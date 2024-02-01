@@ -36,11 +36,11 @@ class ANAnchorView(ANFrame):
 
         self.record_position_label = tk.Label(self)
         self.record_position_entry = tk.Entry(self)
-        self.record_position_button = tk.Button(self, text="Set", command=self._update_record_hotkey)
+        self.record_position_button = tk.Button(self, text="Set", command = self._update_record_hotkey)
 
         self.click_position_label = tk.Label(self)
         self.click_position_entry = tk.Entry(self)
-        self.click_position_button = tk.Button(self, text="Set", command=self._update_click_hotkey)
+        self.click_position_button = tk.Button(self, text="Set", command = self._update_click_hotkey)
 
         self.action_label = tk.Label(self)
         self.action_combobox = ttk.Combobox(self, values=ANAnchor.ACTIONS)
@@ -60,10 +60,10 @@ class ANAnchorView(ANFrame):
         self.action_combobox.current(0)
 
     def _set_subview_content(self):
-        self.record_position_label.config(text=f"Drop Anchor {self.index + 1}:")
+        self.record_position_label.config(text = f"Drop Anchor {self.index + 1}:")
         self.record_position_entry.config(textvariable = self._record_hotkey)
 
-        self.click_position_label.config(text=f"Hotkey {self.index + 1}:")
+        self.click_position_label.config(text = f"Hotkey {self.index + 1}:")
         self.click_position_entry.config(textvariable = self._click_hotkey)
 
         self.action_label.config(text=f"Action {self.index + 1}:")

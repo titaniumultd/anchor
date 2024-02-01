@@ -13,7 +13,7 @@ class ANAnchorSettings(ANFrame):
         self.anchor_list = ANAnchorList(self, self.get_engine())
         self.anchor_list.pack(expand = True, fill = 'both')
 
-        self.activate_hotkeys_button = tk.Button(self, text="Activate hotkeys", command=self.activate_hotkeys)
+        self.activate_hotkeys_button = tk.Button(self, text = "Activate hotkeys", command = self.activate_hotkeys)
         self.activate_hotkeys_button.pack(side = 'right', anchor = tk.S, pady = (10, 0))
 
     def activate_hotkeys(self):

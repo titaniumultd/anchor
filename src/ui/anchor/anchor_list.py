@@ -14,4 +14,4 @@ class ANAnchorList(ANFrame):
 
         for anchor in self.get_engine().get_anchors_controller().get_anchors():
             anchor_view = ANAnchorView(self, self.get_engine(), anchor)
-            anchor_view.grid(column = 0, sticky = 'news', pady=10)
+            anchor_view.grid(column = 0, sticky = 'news', pady = 10)
