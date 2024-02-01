@@ -28,3 +28,10 @@ class ANAnchorsControllerInterface(ABC):
         Activates hotkeys for all loaded anchors.
         """
         pass
+
+    @abstractmethod
+    def deactivate_hotkeys(self) -> None:
+        """
+        Activates hotkeys for all loaded anchors.
+        """
+        pass

@@ -49,6 +49,11 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
         for anchor in self._anchors:
             anchor.record_hotkey.activate()
             anchor.click_hotkey.activate()
+
+    def deactivate_hotkeys(self) -> None:
+        for anchor in self._anchors:
+            anchor.record_hotkey.deactivate()
+            anchor.click_hotkey.deactivate()
     
     # Private Methods
 
