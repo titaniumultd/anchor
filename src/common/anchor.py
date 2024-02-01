@@ -99,16 +99,10 @@ class ANAnchor:
             self.mouse.click(button, clicks)
 
     def _update_record_hotkey(self):
-        hotkey = keyboard.read_hotkey()
-        self.record_hotkey.deactivate()
-        self.record_hotkey.hotkey.set(hotkey)
-        self.record_hotkey.activate()
+        self.record_hotkey.set_new_hotkey()
 
     def _update_click_hotkey(self):
-        hotkey = keyboard.read_hotkey()
-        self.click_hotkey.deactivate()
-        self.click_hotkey.hotkey.set(hotkey)
-        self.click_hotkey.activate()
+        self.click_hotkey.set_new_hotkey()
 
     def destroy(self, save=True):
         self.record_hotkey.deactivate()

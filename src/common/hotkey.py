@@ -71,3 +71,13 @@ class ANHotKey:
             keyboard.remove_hotkey(self.hotkey.get())
         except KeyError:
             pass
+
+    def set_new_hotkey(self) -> None:
+        """
+        Sets a new hotkey combination.
+        """
+        hotkey = keyboard.read_hotkey()
+
+        self.deactivate()
+        self.hotkey.set(hotkey)
+        self.activate()
