@@ -29,7 +29,7 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
             current_profile = profile_controller.get_current_profile()
             raw_anchors = self._get_profile_anchors(current_profile)
             for anchor_dict in raw_anchors:
-                new_anchor = ANAnchor.from_dict(anchor_dict, self._get_root(), self._get_mouse(), self._get_notifier())
+                new_anchor = ANAnchor.from_dict(anchor_dict, self._engine())
                 self._anchors.append(new_anchor)
 
         while len(self._anchors) < MAX_ANCHORS:
@@ -44,6 +44,16 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
         if profile_controller.has_profiles():
             current_profile = profile_controller.get_current_profile()
             profile_controller.update_profile(current_profile, [anchor.to_dict() for anchor in self._anchors])
+
+    def activate_hotkeys(self) -> None:
+        for anchor in self._anchors:
+            anchor.record_hotkey.activate()
+            anchor.click_hotkey.activate()
+
+    def deactivate_hotkeys(self) -> None:
+        for anchor in self._anchors:
+            anchor.record_hotkey.deactivate()
+            anchor.click_hotkey.deactivate()
     
     # Private Methods
 
@@ -80,7 +90,7 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
         if len(self._anchors) >= MAX_ANCHORS:
             return
         
-        new_anchor = ANAnchor(self._get_root(), len(self._anchors), self._get_mouse(), self._get_notifier())
+        new_anchor = ANAnchor(len(self._anchors), self._engine())
         self._anchors.append(new_anchor)
         self.save_anchors()
     

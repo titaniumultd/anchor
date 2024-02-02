@@ -21,3 +21,17 @@ class ANAnchorsControllerInterface(ABC):
     @abstractmethod
     def save_anchors(self) -> None:
         pass
+
+    @abstractmethod
+    def activate_hotkeys(self) -> None:
+        """
+        Activates hotkeys for all loaded anchors.
+        """
+        pass
+
+    @abstractmethod
+    def deactivate_hotkeys(self) -> None:
+        """
+        Activates hotkeys for all loaded anchors.
+        """
+        pass
