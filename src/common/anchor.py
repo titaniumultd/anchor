@@ -1,5 +1,4 @@
 
-import threading
 import weakref
 
 from pynput.mouse import Button as MouseButton
@@ -57,20 +56,14 @@ class ANAnchor(object):
             self.mouse.position = self.mouse_position
             button, clicks = ANAnchor.ACTION_BUTTON_CLICKS.get(self.action, (MouseButton.left, 1))
             self.mouse.click(button, clicks)
-        
-    def _update_record_hotkey(self):
+
+    def update_record_hotkey(self):
         self.record_hotkey.set_new_hotkey()
         self.notifier.notify()
-        
-    def _update_click_hotkey(self):
-        self.click_hotkey.set_new_hotkey()
-        self.notifier.notify()
-        
-    def update_record_hotkey(self):
-        threading.Thread(target=self._update_record_hotkey, daemon=True).start()
 
     def update_click_hotkey(self):
-        threading.Thread(target=self._update_record_hotkey, daemon=True).start()
+        self.click_hotkey.set_new_hotkey()
+        self.notifier.notify()
 
     def destroy(self, save=True):
         self.record_hotkey.deactivate()
