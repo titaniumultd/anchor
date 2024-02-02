@@ -70,7 +70,7 @@ class ANAnchor(object):
         threading.Thread(target=self._update_record_hotkey, daemon=True).start()
 
     def update_click_hotkey(self):
-        threading.Thread(target=self._update_record_hotkey, daemon=True).start()
+        threading.Thread(target=self._update_click_hotkey, daemon=True).start()
 
     def destroy(self, save=True):
         self.record_hotkey.deactivate()
