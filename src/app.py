@@ -1,4 +1,4 @@
-import keyboard
+
 import logging
 import tkinter as tk
 
@@ -13,7 +13,6 @@ class App(object):
         
         self.root = tk.Tk()
         self.root.title("Anchor")
-        self.root.protocol("WM_DELETE_WINDOW", self._close_window)
         self.root.geometry(f'{SCREEN_WIDTH}x{SCREEN_HEIGHT}')
         self.root.minsize(SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -24,8 +23,5 @@ class App(object):
     def run(self):
         self._engine.load()
         self._root_view = ANRootView(self.root, self._engine)
+
         self.root.mainloop()
-        
-    def _close_window(self) -> None:
-        keyboard.unhook_all()
-        self.root.destroy()
