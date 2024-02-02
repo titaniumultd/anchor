@@ -29,6 +29,7 @@ class ANAnchorView(ANFrame):
         self._init_subviews()
         self._layout_subviews()
         self._set_subview_content()
+        self._add_tracing()
 
     def _init_subviews(self):
         self.columnconfigure((0, 1, 2), weight=1)
@@ -69,6 +70,13 @@ class ANAnchorView(ANFrame):
         self.action_label.config(text=f"Action {self.index + 1}:")
         self.action_combobox.set(self._anchor.action)
 
+    def _add_tracing(self):
+        """
+        Adds variable tracing for entry fields so we can persist any manual changes the user makes.
+        """
+        self._record_hotkey.trace_add('write', self._record_entry_did_update)
+        self._click_hotkey.trace_add('write', self._click_entry_did_update)
+
     @property
     def index(self):
         return self._anchor.index
@@ -80,3 +88,15 @@ class ANAnchorView(ANFrame):
     def _update_click_hotkey(self):
         self._anchor.update_click_hotkey()
         self._click_hotkey.set(self._anchor.click_hotkey.hotkey)
+
+    # Tracing Callbacks
+
+    def _record_entry_did_update(self, *args):
+        if len(self._record_hotkey.get()) > 0 and self._record_hotkey.get()[-1] != '+':
+            self._anchor.record_hotkey.hotkey = self._record_hotkey.get()
+            self._engine().get_notifier().notify()
+
+    def _click_entry_did_update(self, *args):
+        if len(self._click_hotkey.get()) > 0 and self._click_hotkey.get()[-1] != '+':
+            self._anchor.click_hotkey.hotkey = self._click_hotkey.get()
+            self._engine().get_notifier().notify()
