@@ -43,3 +43,5 @@
 * PoE ToS version/config
 * Updating
 * Auth
+
+Icon by <a href="https://adioma.com">Adioma</a>
