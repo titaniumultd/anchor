@@ -10,9 +10,9 @@
 * Open source
 
 ### To-Do
-- [ ] Feature reduction
-    - [-] Remove profiles
-        - **Incomplete**
+- [x] Feature reduction
+    - [x] Remove profiles
+        - ***Only removing profiles from the frontend to preserve state recovery***
     - [x] Remove double-click
 - [ ] UI overhaul
     - [ ] Scale buttons/Anchor to fixed size
