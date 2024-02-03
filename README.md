@@ -17,7 +17,7 @@
 - [ ] UI overhaul
     - [ ] Scale buttons/Anchor to fixed size
     - [x] App/Tray icon
-    - [ ] Minimize to hidden icons
+    - [x] Minimize to hidden icons
     - [ ] Make pretty
     - [ ] Localization?
 - [ ] UX overhaul
