@@ -16,7 +16,7 @@
     - [x] Remove double-click
 - [ ] UI overhaul
     - [ ] Scale buttons/Anchor to fixed size
-    - [ ] App/Tray icon
+    - [x] App/Tray icon
     - [ ] Minimize to hidden icons
     - [ ] Make pretty
     - [ ] Localization?
