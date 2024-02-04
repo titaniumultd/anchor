@@ -6,5 +6,7 @@ TASKBAR_ICON_PATH = 'src/ui/custom/icons/anchor.ico'
 
 MAX_ANCHORS = 5
 
+TITLE_STR = 'Anchor'
+
 ACTION_LEFT_CLICK = "left click"
 ACTION_RIGHT_CLICK = "right click"
