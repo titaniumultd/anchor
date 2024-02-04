@@ -5,7 +5,7 @@ import tkinter as tk
 
 import keyboard
 
-from src.common.config import SCREEN_HEIGHT, SCREEN_WIDTH, TASKBAR_ICON_PATH
+from src.common.config import SCREEN_HEIGHT, SCREEN_WIDTH, TASKBAR_ICON_PATH, TITLE_STR
 from src.engine.engine import ANEngine
 from src.ui.root_view import ANRootView
 from src.ui.tray import ANTray
@@ -14,10 +14,10 @@ from src.ui.tray import ANTray
 class App(object):
     def __init__(self):
         logging.basicConfig(filename='error.log', level=logging.INFO)
-        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("anchor")
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(TITLE_STR)
         
         self.root = tk.Tk()
-        self.root.title("Anchor")
+        self.root.title(TITLE_STR)
         self.root.protocol("WM_DELETE_WINDOW", self.hide_window)
         self.root.geometry(f'{SCREEN_WIDTH}x{SCREEN_HEIGHT}')
         self.root.minsize(SCREEN_WIDTH, SCREEN_HEIGHT)

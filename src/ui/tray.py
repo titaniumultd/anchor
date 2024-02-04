@@ -3,7 +3,7 @@ import threading
 import pystray as tray
 from PIL import Image
 
-from src.common.config import TASKBAR_ICON_PATH
+from src.common.config import TASKBAR_ICON_PATH, TITLE_STR
 
 
 class ANTray(object):
@@ -18,7 +18,7 @@ class ANTray(object):
             tray.MenuItem("Hide", self._hide_window), 
             tray.MenuItem("Exit", self._exit)
             )
-        self.tray = tray.Icon("title", Image.open(TASKBAR_ICON_PATH), "Anchor", self.tray_menu)
+        self.tray = tray.Icon("title", Image.open(TASKBAR_ICON_PATH), TITLE_STR, self.tray_menu)
 
         threading.Thread(target=self.tray.run, kwargs={'setup':self._show_window}, daemon=True).start() # macOS / linux incompatible
 
