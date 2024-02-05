@@ -1,7 +1,7 @@
 
 import ctypes
 import logging
-import tkinter as tk
+import customtkinter as ctk
 
 import keyboard
 
@@ -16,7 +16,7 @@ class App(object):
         logging.basicConfig(filename='error.log', level=logging.INFO)
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(TITLE_STR)
         
-        self.root = tk.Tk()
+        self.root = ctk.CTk()
         self.root.title(TITLE_STR)
         self.root.protocol("WM_DELETE_WINDOW", self.hide_window)
         self.root.geometry(f'{SCREEN_WIDTH}x{SCREEN_HEIGHT}')

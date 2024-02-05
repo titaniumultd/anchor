@@ -1,6 +1,4 @@
 
-import tkinter as tk
-
 from src.ui.anchor.anchor_view import ANAnchorView
 from src.ui.custom.frame import ANFrame
 
