@@ -43,7 +43,7 @@ class ANAnchorView(ANFrame):
         self.click_position_button = ctk.CTkButton(self, text="Set", command=self._update_click_hotkey)
 
         self.action_label = ctk.CTkLabel(self)
-        self.action_combobox = ctk.CTkComboBox(self, values=ANAnchor.ACTIONS)
+        self.action_combobox = ctk.CTkComboBox(self, values=ANAnchor.ACTIONS, command=self._update_action)
 
     def _layout_subviews(self):
         self.record_position_label.grid(row=0, column=0, pady=Y_PADDING, sticky='e')
@@ -56,8 +56,6 @@ class ANAnchorView(ANFrame):
 
         self.action_label.grid(row=2, column=0, pady=Y_PADDING, sticky='e')
         self.action_combobox.grid(row=2, column=1, padx=X_PADDING, pady=Y_PADDING, sticky='news')
-
-        #self.action_combobox.current(0)
 
     def _set_subview_content(self):
         self.record_position_label.configure(text=f"Drop Anchor {self.index + 1}:")
@@ -87,6 +85,9 @@ class ANAnchorView(ANFrame):
     def _update_click_hotkey(self):
         self._anchor.update_click_hotkey()
         self._click_hotkey.set(self._anchor.click_hotkey.hotkey)
+
+    def _update_action(self, action):
+        self._anchor.update_action(action)
 
     # Tracing Callbacks
 
