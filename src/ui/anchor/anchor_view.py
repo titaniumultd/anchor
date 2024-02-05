@@ -1,8 +1,8 @@
 
 import customtkinter as ctk
 
-from src.common.anchor import ANAnchor
 from src.ui.custom.frame import ANFrame
+from src.common.config import ACTIONS, UI_SCALE
 
 X_PADDING = 4
 Y_PADDING = 4
@@ -25,6 +25,7 @@ class ANAnchorView(ANFrame):
         super().__init__(master, engine)
 
     def load_subviews(self):
+        self._scale_ui(UI_SCALE)
         self._init_subviews()
         self._layout_subviews()
         self._set_subview_content()
@@ -43,7 +44,7 @@ class ANAnchorView(ANFrame):
         self.click_position_button = ctk.CTkButton(self, text="Set", command=self._update_click_hotkey)
 
         self.action_label = ctk.CTkLabel(self)
-        self.action_combobox = ctk.CTkComboBox(self, values=ANAnchor.ACTIONS, command=self._update_action)
+        self.action_combobox = ctk.CTkComboBox(self, values=ACTIONS, command=self._update_action)
 
     def _layout_subviews(self):
         self.record_position_label.grid(row=0, column=0, pady=Y_PADDING, sticky='e')
@@ -67,6 +68,10 @@ class ANAnchorView(ANFrame):
         self.action_label.configure(text=f"Action {self.index + 1}:")
         self.action_combobox.set(self._anchor.action)
 
+    def _scale_ui(self, scalar:float):
+        ctk.set_window_scaling(scalar)
+        ctk.set_widget_scaling(scalar)
+
     def _add_tracing(self):
         """
         Adds variable tracing for entry fields so we can persist any manual changes the user makes.
@@ -87,7 +92,7 @@ class ANAnchorView(ANFrame):
         self._click_hotkey.set(self._anchor.click_hotkey.hotkey)
 
     def _update_action(self, action):
-        self._anchor.update_action(action)
+        self._anchor.update_action(self.action_combobox.get())
 
     # Tracing Callbacks
 

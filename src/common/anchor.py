@@ -11,11 +11,6 @@ from src.common.config import ACTION_LEFT_CLICK, ACTION_RIGHT_CLICK
 
 class ANAnchor(object):
 
-    ACTIONS = [
-        ACTION_LEFT_CLICK, 
-        ACTION_RIGHT_CLICK
-    ]
-    
     ACTION_BUTTON_CLICKS = {
         ACTION_LEFT_CLICK: (MouseButton.left, 1),
         ACTION_RIGHT_CLICK: (MouseButton.right, 1)
