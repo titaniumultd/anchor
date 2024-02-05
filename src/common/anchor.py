@@ -74,6 +74,7 @@ class ANAnchor(object):
     
     def update_action(self, action):
         self.action = action
+        self.notifier.notify()
 
     def destroy(self, save=True):
         self.record_hotkey.deactivate()
