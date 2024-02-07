@@ -11,11 +11,6 @@ from src.common.config import ACTION_LEFT_CLICK, ACTION_RIGHT_CLICK
 
 class ANAnchor(object):
 
-    ACTIONS = [
-        ACTION_LEFT_CLICK, 
-        ACTION_RIGHT_CLICK
-    ]
-    
     ACTION_BUTTON_CLICKS = {
         ACTION_LEFT_CLICK: (MouseButton.left, 1),
         ACTION_RIGHT_CLICK: (MouseButton.right, 1)
@@ -55,7 +50,7 @@ class ANAnchor(object):
         '''
         if self.mouse_position:
             self.mouse.position = self.mouse_position
-            button, clicks = ANAnchor.ACTION_BUTTON_CLICKS.get(self.action, (MouseButton.left, 1))
+            button, clicks = self.ACTION_BUTTON_CLICKS.get(self.action)#, (MouseButton.left, 1))
             self.mouse.click(button, clicks)
         
     def _update_record_hotkey(self):
@@ -71,6 +66,10 @@ class ANAnchor(object):
 
     def update_click_hotkey(self):
         threading.Thread(target=self._update_click_hotkey, daemon=True).start()
+    
+    def update_action(self, action):
+        self.action = action
+        self.notifier.notify()
 
     def destroy(self, save=True):
         self.record_hotkey.deactivate()

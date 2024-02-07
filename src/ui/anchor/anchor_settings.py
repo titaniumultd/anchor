@@ -1,5 +1,5 @@
 
-import tkinter as tk
+import customtkinter as ctk
 
 from src.ui.custom.frame import ANFrame
 from src.ui.anchor.anchor_list import ANAnchorList
@@ -13,9 +13,9 @@ class ANAnchorSettings(ANFrame):
         self.anchor_list = ANAnchorList(self, self.get_engine())
         self.anchor_list.pack(expand=True, fill='both')
 
-        self.hotkeys_enabled = tk.IntVar()
-        self.activate_hotkeys_button = tk.Checkbutton(self, text="Activate hotkeys", command=self.activate_hotkeys, variable=self.hotkeys_enabled)
-        self.activate_hotkeys_button.pack(side='right', anchor=tk.S, pady=(10, 0))
+        self.hotkeys_enabled = ctk.IntVar()
+        self.activate_hotkeys_button = ctk.CTkCheckBox(self, text="Activate hotkeys", command=self.activate_hotkeys, variable=self.hotkeys_enabled)
+        self.activate_hotkeys_button.pack(side='right', anchor=ctk.S, pady=(10, 0))
 
     def activate_hotkeys(self):
         if self.hotkeys_enabled.get() == 1:

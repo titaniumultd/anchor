@@ -1,10 +1,12 @@
 
 import weakref
-import tkinter as tk
+
+import customtkinter as ctk
 
 from src.common.interfaces.engine_interface import ANEngineInterface
 
-class ANFrame(tk.Frame):
+
+class ANFrame(ctk.CTkFrame):
     """
     Frame base class that automatically saves the engine as a weak reference.
     """
