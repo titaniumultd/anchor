@@ -49,20 +49,6 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
         for anchor in self._anchors:
             anchor.toggle_hotkeys()
 
-    def activate_hotkeys(self) -> None:
-        pass
-#        for anchor in self._anchors:
-#            anchor.record_hotkey.activate()
-#            anchor.click_hotkey.activate()
-
-    def deactivate_hotkeys(self) -> None:
-        pass
-#        for anchor in self._anchors:
-#            anchor.record_hotkey.deactivate()
-#            anchor.click_hotkey.deactivate()
-    
-    # Private Methods
-
     def _get_root(self):
         return self._engine().get_root()
     
