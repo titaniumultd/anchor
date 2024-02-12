@@ -26,6 +26,7 @@ class ANAnchor(object):
         self._engine = weakref.ref(engine)
         self.mouse_position = None
         self.action = ACTION_LEFT_CLICK
+        self.buttons = []
         
         self._init_hotkeys()
 
@@ -54,18 +55,31 @@ class ANAnchor(object):
             self.mouse.click(button, clicks)
         
     def _update_record_hotkey(self):
+        self._dither_buttons()
         self.record_hotkey.set_new_hotkey()
         self.notifier.notify()
+        self._undither_buttons()
         
     def _update_click_hotkey(self):
         self.click_hotkey.set_new_hotkey()
         self.notifier.notify()
+    
+    def register_button(self, button):
+        self.buttons.append(button)
         
     def update_record_hotkey(self):
         threading.Thread(target=self._update_record_hotkey, daemon=True).start()
 
     def update_click_hotkey(self):
         threading.Thread(target=self._update_click_hotkey, daemon=True).start()
+    
+    def _dither_buttons(self):
+        for button in self.buttons:
+            button.configure(state="disabled")
+    
+    def _undither_buttons(self):
+        for button in self.buttons:
+            button.configure(state="normal")
     
     def update_action(self, action):
         self.action = action

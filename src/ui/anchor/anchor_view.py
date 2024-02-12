@@ -46,6 +46,12 @@ class ANAnchorView(ANFrame):
         self.action_label = ctk.CTkLabel(self)
         self.action_combobox = ctk.CTkComboBox(self, values=ACTIONS, command=self._update_action)
 
+        self._register_buttons()
+    
+    def _register_buttons(self):
+        self._anchor.register_button(self.record_position_button)
+        self._anchor.register_button(self.click_position_button)
+
     def _layout_subviews(self):
         self.record_position_label.grid(row=0, column=0, pady=Y_PADDING, sticky='e')
         self.record_position_entry.grid(row=0, column=1, padx=X_PADDING, pady=Y_PADDING, sticky='news')
