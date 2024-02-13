@@ -12,9 +12,9 @@ class ANHotKey:
     def __init__(self, action: callable):
         self.action = action
         self.hotkey = ''
-        self.is_capturing = False
+    #    self.is_capturing = False
 
-    def start_capturing(self) -> None:
+    '''    def start_capturing(self) -> None:
         """
         Start capturing keystrokes for hotkey registration.
         """
@@ -50,6 +50,7 @@ class ANHotKey:
             self.hotkey = '+'.join(self.captured_keys)
             self.captured_keys = []
         return False 
+    '''
 
     def activate(self) -> None:
         """
@@ -74,8 +75,7 @@ class ANHotKey:
         """
         Sets a new hotkey combination.
         """
-        hotkey = keyboard.read_hotkey()
-
         self.deactivate()
+        hotkey = keyboard.read_hotkey()
         self.hotkey = hotkey
         self.activate()

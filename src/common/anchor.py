@@ -2,19 +2,12 @@
 import threading
 import weakref
 
-from pynput.mouse import Button as MouseButton
-
 from src.common.interfaces.engine_interface import ANEngineInterface
 from src.common.hotkey import ANHotKey
-from src.common.config import ACTION_LEFT_CLICK, ACTION_RIGHT_CLICK      
+from src.common.config import ACTION_LEFT_CLICK, ACTION_BUTTON_CLICKS      
         
 
 class ANAnchor(object):
-
-    ACTION_BUTTON_CLICKS = {
-        ACTION_LEFT_CLICK: (MouseButton.left, 1),
-        ACTION_RIGHT_CLICK: (MouseButton.right, 1)
-    }
 
     def __init__(self,
                  index, 
@@ -26,7 +19,8 @@ class ANAnchor(object):
         self._engine = weakref.ref(engine)
         self.mouse_position = None
         self.action = ACTION_LEFT_CLICK
-        self.buttons = []
+        self._buttons = []
+        self._view = None
         
         self._init_hotkeys()
 
@@ -51,21 +45,30 @@ class ANAnchor(object):
         '''
         if self.mouse_position:
             self.mouse.position = self.mouse_position
-            button, clicks = self.ACTION_BUTTON_CLICKS.get(self.action)#, (MouseButton.left, 1))
+            button, clicks = ACTION_BUTTON_CLICKS.get(self.action)
             self.mouse.click(button, clicks)
         
     def _update_record_hotkey(self):
         self._dither_buttons()
+        self._view.update_label(self._view._record_hotkey, 'Recording...')
         self.record_hotkey.set_new_hotkey()
-        self.notifier.notify()
+        self._view.update_label(self._view._record_hotkey, self.record_hotkey.hotkey)
         self._undither_buttons()
+        self.notifier.notify()
         
     def _update_click_hotkey(self):
+        self._dither_buttons()
+        self._view.update_label(self._view._click_hotkey, 'Recording...')
         self.click_hotkey.set_new_hotkey()
+        self._view.update_label(self._view._click_hotkey, self.click_hotkey.hotkey)
+        self._undither_buttons()
         self.notifier.notify()
     
     def register_button(self, button):
-        self.buttons.append(button)
+        self._buttons.append(button)
+
+    def register_view(self, view):
+        self._view = view
         
     def update_record_hotkey(self):
         threading.Thread(target=self._update_record_hotkey, daemon=True).start()
@@ -74,11 +77,11 @@ class ANAnchor(object):
         threading.Thread(target=self._update_click_hotkey, daemon=True).start()
     
     def _dither_buttons(self):
-        for button in self.buttons:
+        for button in self._buttons:
             button.configure(state="disabled")
     
     def _undither_buttons(self):
-        for button in self.buttons:
+        for button in self._buttons:
             button.configure(state="normal")
     
     def update_action(self, action):
