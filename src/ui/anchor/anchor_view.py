@@ -57,7 +57,6 @@ class ANAnchorView(ANFrame):
         self._anchor.register_view(self)
 
     def update_label(self, label, string):
-        print(string)
         label.set(string)
 
     def _layout_subviews(self):

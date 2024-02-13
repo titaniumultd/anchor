@@ -76,6 +76,7 @@ class ANHotKey:
         Sets a new hotkey combination.
         """
         self.deactivate()
+        keyboard.stash_state() # fixes key retention after reading issue
         hotkey = keyboard.read_hotkey()
         self.hotkey = hotkey
         self.activate()

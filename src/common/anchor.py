@@ -51,18 +51,22 @@ class ANAnchor(object):
         
     def _update_record_hotkey(self):
         self._dither_buttons()
+        self._engine().get_anchors_controller().toggle_hotkeys()
         self._view.update_label(self._view._record_hotkey, 'Recording...')
         self.record_hotkey.set_new_hotkey()
         self._view.update_label(self._view._record_hotkey, self.record_hotkey.hotkey)
         self._undither_buttons()
+        self._engine().get_anchors_controller().toggle_hotkeys()
         self.notifier.notify()
         
     def _update_click_hotkey(self):
         self._dither_buttons()
+        self._engine().get_anchors_controller().toggle_hotkeys()
         self._view.update_label(self._view._click_hotkey, 'Recording...')
         self.click_hotkey.set_new_hotkey()
         self._view.update_label(self._view._click_hotkey, self.click_hotkey.hotkey)
         self._undither_buttons()
+        self._engine().get_anchors_controller().toggle_hotkeys()
         self.notifier.notify()
     
     def register_button(self, button):
@@ -70,7 +74,7 @@ class ANAnchor(object):
 
     def register_view(self, view):
         self._view = view
-        
+
     def toggle_hotkeys(self):
         self.hotkeys_enabled = not self.hotkeys_enabled
         
