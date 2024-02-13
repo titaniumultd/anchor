@@ -45,17 +45,9 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
             current_profile = profile_controller.get_current_profile()
             profile_controller.update_profile(current_profile, [anchor.to_dict() for anchor in self._anchors])
 
-    def activate_hotkeys(self) -> None:
+    def toggle_hotkeys(self) -> None:
         for anchor in self._anchors:
-            anchor.record_hotkey.activate()
-            anchor.click_hotkey.activate()
-
-    def deactivate_hotkeys(self) -> None:
-        for anchor in self._anchors:
-            anchor.record_hotkey.deactivate()
-            anchor.click_hotkey.deactivate()
-    
-    # Private Methods
+            anchor.toggle_hotkeys()
 
     def _get_root(self):
         return self._engine().get_root()

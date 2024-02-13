@@ -21,6 +21,7 @@ class ANAnchor(object):
         self.action = ACTION_LEFT_CLICK
         self._buttons = []
         self._view = None
+        self.hotkeys_enabled = True
         
         self._init_hotkeys()
 
@@ -43,7 +44,7 @@ class ANAnchor(object):
         '''
         Perform the configured action at the recorded mouse position.
         '''
-        if self.mouse_position:
+        if self.mouse_position and self.hotkeys_enabled:
             self.mouse.position = self.mouse_position
             button, clicks = ACTION_BUTTON_CLICKS.get(self.action)
             self.mouse.click(button, clicks)
@@ -69,6 +70,9 @@ class ANAnchor(object):
 
     def register_view(self, view):
         self._view = view
+        
+    def toggle_hotkeys(self):
+        self.hotkeys_enabled = not self.hotkeys_enabled
         
     def update_record_hotkey(self):
         threading.Thread(target=self._update_record_hotkey, daemon=True).start()
