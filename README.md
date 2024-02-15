@@ -12,18 +12,18 @@
 ### To-Do
 - [x] Feature reduction
     - [x] Remove profiles
-        - ***Only removing profiles from the frontend to preserve state recovery***
     - [x] Remove double-click
 - [ ] UI overhaul
-    - [ ] Scale buttons/Anchor to fixed size
+    - [X] Scale buttons/Anchor to fixed size
     - [x] App/Tray icon
     - [x] Minimize to hidden icons
-    - [ ] Make pretty
+    - [X] Make pretty
     - [ ] Localization?
 - [ ] UX overhaul
     - [ ] Keybind creation
     - [x] Remove add/delete
-    - [ ] Drag and Drop workflow
+    - [x] Global keybind checkbox
+    - [ ] ~~Drag and Drop workflow~~
 - [ ] Release
     - [ ] Executable/install
     - [ ] Press release
