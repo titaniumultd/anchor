@@ -8,6 +8,7 @@ from src.common.interfaces.engine_interface import ANEngineInterface
 from src.common.interfaces.anchors_interface import ANAnchorsControllerInterface
 from src.common.interfaces.profile_interface import ANProfileControllerInterface
 from src.common.interfaces.state_interface import ANStateControllerInterface
+from src.engine.view_model import ANViewModel
 
 
 class ANAnchorsController(ANAnchorsControllerInterface, object):
@@ -15,10 +16,9 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
     Manages anchors. To-Do: Separate Anchors from UI
     """
 
-    def __init__(self, 
-                 engine: ANEngineInterface):
+    def __init__(self, engine: ANEngineInterface):
         self._engine = weakref.ref(engine)
-        self._anchors = []
+        self._anchors = [ANAnchor]
 
     # Public Methods
 
@@ -48,6 +48,14 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
     def toggle_hotkeys(self) -> None:
         for anchor in self._anchors:
             anchor.toggle_hotkeys()
+    
+    def disable_all_hotkeys(self):
+        for anchor in self._anchors:
+            anchor.disable_hotkeys()
+    
+    def enable_all_hotkeys(self):
+        for anchor in self._anchors:
+            anchor.enable_hotkeys()
 
     def _get_root(self):
         return self._engine().get_root()
@@ -55,8 +63,11 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
     def _get_mouse(self):
         return self._engine().get_mouse()
     
-    def _get_notifier(self):
+    def get_notifier(self):
         return self._engine().get_notifier()
+    
+    def get_view_model(self) -> ANViewModel:
+        return self._engine().get_view_model()
 
     def _get_state_controller(self) -> ANStateControllerInterface:
         return self._engine().get_state_controller()

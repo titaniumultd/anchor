@@ -18,6 +18,17 @@ class ANAnchorsControllerInterface(ABC):
         """
         pass
 
+    def get_view_model(self):
+        pass
+
+    @abstractmethod
+    def disable_all_hotkeys(self) -> None:
+        pass
+
+    @abstractmethod
+    def enable_all_hotkeys(self) -> None:
+        pass
+
     @abstractmethod
     def save_anchors(self) -> None:
         pass

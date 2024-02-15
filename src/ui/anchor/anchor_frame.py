@@ -14,15 +14,15 @@ class ANAnchorView(ANFrame):
     """
 
     def __init__(self, 
-                 master, 
-                 engine, 
+                 master,
+                 view_model,  
                  anchor):
         self._anchor = anchor
 
         self._click_hotkey = ctk.StringVar(value=anchor.click_hotkey.hotkey)
         self._record_hotkey = ctk.StringVar(value=anchor.record_hotkey.hotkey)
 
-        super().__init__(master, engine)
+        super().__init__(master)
 
     def load_subviews(self):
         self._scale_ui(UI_SCALE)

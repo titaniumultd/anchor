@@ -1,56 +1,21 @@
 
 import keyboard
 import logging
+import threading
+
+from src.common.interfaces.view_model_interface import ANViewModelInterface
 
 logging.basicConfig(filename='error.log', level=logging.INFO)
 
 
-class ANHotKey:
+class ANHotKey(object):
     """
     Class to hold the individual hotkeys and provide services to set and activate the hotkeys.
     """
-    def __init__(self, action: callable):
+    def __init__(self, action: callable, view_model: ANViewModelInterface):
         self.action = action
         self.hotkey = ''
-    #    self.is_capturing = False
-
-    '''    def start_capturing(self) -> None:
-        """
-        Start capturing keystrokes for hotkey registration.
-        """
-        logging.info("Starting capture")
-        self.is_capturing = True
-        self.captured_keys = []
-        keyboard.hook_key('esc', self.stop_capturing, suppress=True)
-        keyboard.on_press(self.on_key_press, suppress=True)
-        keyboard.on_release(self.on_key_release, suppress=True)
-
-    def stop_capturing(self, e=None) -> bool:
-        """
-        Stop capturing keystrokes for hotkey registration.
-        """
-        keyboard.unhook_all()
-        self.is_capturing = False
-        return False
-
-    def on_key_press(self, e: keyboard.KeyboardEvent) -> bool:
-        """
-        Handle a key press event during hotkey registration.
-        """
-        logging.info(f"Key pressed: {e.name}")
-        self.captured_keys.append(e.name)
-        return False
-
-    def on_key_release(self, e: keyboard.KeyboardEvent) -> bool:
-        """
-        Handle a key release event during hotkey registration.
-        """
-        if self.is_capturing:
-            self.stop_capturing()
-            self.hotkey = '+'.join(self.captured_keys)
-            self.captured_keys = []
-        return False 
-    '''
+        self.view_model = view_model
 
     def activate(self) -> None:
         """
@@ -70,13 +35,17 @@ class ANHotKey:
             keyboard.remove_hotkey(self.hotkey)
         except KeyError:
             pass
+    
+    def set_new_hotkey(self, callback: callable):
+        threading.Thread(target=self._set_new_hotkey, args=[callback], daemon=True).start()
 
-    def set_new_hotkey(self) -> None:
+    def _set_new_hotkey(self, callback: callable) -> None:
         """
-        Sets a new hotkey combination.
+        Sets a new hotkey combination. Calls a callback on completion
         """
         self.deactivate()
         keyboard.stash_state() # fixes key retention after reading issue
         hotkey = keyboard.read_hotkey()
         self.hotkey = hotkey
         self.activate()
+        self.view_model.restore_ui()

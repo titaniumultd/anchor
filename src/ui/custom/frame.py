@@ -3,7 +3,7 @@ import weakref
 
 import customtkinter as ctk
 
-from src.common.interfaces.engine_interface import ANEngineInterface
+from src.common.interfaces.view_interface import ANViewInterface
 
 
 class ANFrame(ctk.CTkFrame):
@@ -13,15 +13,15 @@ class ANFrame(ctk.CTkFrame):
     
     def __init__(self, 
                  master,
-                 engine: ANEngineInterface):
+                 view: ANViewInterface):
         super().__init__(master)
         
-        self._engine = weakref.ref(engine)
-
+        self._view = weakref.ref(view)
+        
         self.load_subviews()
 
-    def get_engine(self):
-        return self._engine()
+    def get_view(self):
+        return self._view()
     
     def load_subviews(self):
         pass

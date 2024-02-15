@@ -7,7 +7,6 @@ import keyboard
 
 from src.common.config import SCREEN_HEIGHT, SCREEN_WIDTH, TASKBAR_ICON_PATH, TITLE_STR
 from src.engine.engine import ANEngine
-from src.ui.root_view import ANRootView
 from src.ui.tray import ANTray
 
 
@@ -23,13 +22,10 @@ class App(object):
         self.root.minsize(SCREEN_WIDTH, SCREEN_HEIGHT)
         self.root.iconbitmap(default=TASKBAR_ICON_PATH)
 
-        self._root_view = None
-
         self._engine = ANEngine(self.root)
 
     def run(self):
         self._engine.load()
-        self._root_view = ANRootView(self.root, self._engine)
         self._tray = ANTray(self)
         self.root.mainloop()
     

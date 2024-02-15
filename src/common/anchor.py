@@ -2,7 +2,6 @@
 import threading
 import weakref
 
-from src.common.interfaces.engine_interface import ANEngineInterface
 from src.common.hotkey import ANHotKey
 from src.common.config import ACTION_LEFT_CLICK, ACTION_BUTTON_CLICKS      
         
@@ -10,16 +9,16 @@ from src.common.config import ACTION_LEFT_CLICK, ACTION_BUTTON_CLICKS
 class ANAnchor(object):
 
     def __init__(self,
-                 index, 
-                 engine: ANEngineInterface):
+                 index: int, 
+                 controller):
         '''
         Instanced class to hold sets of hotkeys and ui components.
         '''
         self.index = index
-        self._engine = weakref.ref(engine)
         self.mouse_position = None
         self.action = ACTION_LEFT_CLICK
         self._buttons = []
+        self._controller = weakref.ref(controller)
         self._view = None
         self.hotkeys_enabled = True
         
@@ -29,8 +28,8 @@ class ANAnchor(object):
         '''
         Initialize hotkeys and bind them to their corresponding functions.
         '''
-        self.record_hotkey = ANHotKey(self._record_position)
-        self.click_hotkey = ANHotKey(self._click_position)
+        self.record_hotkey = ANHotKey(self._record_position, self._controller().get_view_model())
+        self.click_hotkey = ANHotKey(self._click_position, 'click')
         self.record_hotkey.hotkey = f'ctrl+alt+{self.index + 1}'
         self.click_hotkey.hotkey = f'alt+{self.index + 1}'
         self.record_hotkey.activate()
@@ -49,25 +48,11 @@ class ANAnchor(object):
             button, clicks = ACTION_BUTTON_CLICKS.get(self.action)
             self.mouse.click(button, clicks)
         
-    def _update_record_hotkey(self):
-        self._dither_buttons()
-        self._engine().get_anchors_controller().toggle_hotkeys()
-        self._view.update_label(self._view._record_hotkey, 'Recording...')
+    def update_record_hotkey(self):
         self.record_hotkey.set_new_hotkey()
-        self._view.update_label(self._view._record_hotkey, self.record_hotkey.hotkey)
-        self._undither_buttons()
-        self._engine().get_anchors_controller().toggle_hotkeys()
-        self.notifier.notify()
         
     def _update_click_hotkey(self):
-        self._dither_buttons()
-        self._engine().get_anchors_controller().toggle_hotkeys()
-        self._view.update_label(self._view._click_hotkey, 'Recording...')
         self.click_hotkey.set_new_hotkey()
-        self._view.update_label(self._view._click_hotkey, self.click_hotkey.hotkey)
-        self._undither_buttons()
-        self._engine().get_anchors_controller().toggle_hotkeys()
-        self.notifier.notify()
     
     def register_button(self, button):
         self._buttons.append(button)
@@ -76,11 +61,23 @@ class ANAnchor(object):
         self._view = view
 
     def toggle_hotkeys(self):
-        self.hotkeys_enabled = not self.hotkeys_enabled
-        
-    def update_record_hotkey(self):
-        threading.Thread(target=self._update_record_hotkey, daemon=True).start()
+        if self.hotkeys_enabled:
+            self.disable_hotkeys()
+        else:
+            self.enable_hotkeys()
 
+    def disable_hotkeys(self):
+        self.hotkeys_enabled = False
+    
+    def enable_hotkeys(self):
+        self.hotkeys_enabled = True
+
+    def get_hotkey(self, type:str) -> ANHotKey:
+        if type == 'record':
+            return self.record_hotkey
+        elif type == 'click':
+            return self.click_hotkey
+                
     def update_click_hotkey(self):
         threading.Thread(target=self._update_click_hotkey, daemon=True).start()
     

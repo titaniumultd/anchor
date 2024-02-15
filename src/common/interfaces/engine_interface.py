@@ -35,6 +35,10 @@ class ANEngineInterface(ABC):
     @abstractmethod
     def get_state_controller(self) -> ANStateControllerInterface:
         pass
+
+    @abstractmethod
+    def get_view_model(self):
+        pass
     
     @abstractmethod
     def get_root(self): # to-do: Add typing

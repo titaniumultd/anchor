@@ -1,5 +1,5 @@
 
-from src.ui.anchor.anchor_view import ANAnchorView
+from src.ui.anchor.anchor_frame import ANAnchorView
 from src.ui.custom.frame import ANFrame
 
 class ANAnchorList(ANFrame):
