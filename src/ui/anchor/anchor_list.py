@@ -1,6 +1,8 @@
 
+from src.common.anchor import ANAnchor
 from src.ui.anchor.anchor_view import ANAnchorView
 from src.ui.custom.frame import ANFrame
+
 
 class ANAnchorList(ANFrame):
     """
@@ -9,7 +11,11 @@ class ANAnchorList(ANFrame):
 
     def load_subviews(self):
         self.grid_columnconfigure(0, weight=1)
+        anchors = self._get_anchor_list()
 
-        for anchor in self.get_engine().get_anchors_controller().get_anchors():
-            anchor_view = ANAnchorView(self, self.get_engine(), anchor)
+        for anchor in anchors:
+            anchor_view = ANAnchorView(self, self._root, anchor)
             anchor_view.grid(column=0, sticky='news', pady=10)
+
+    def _get_anchor_list(self) -> list[ANAnchor]:
+        return self._view.get_anchor_list()

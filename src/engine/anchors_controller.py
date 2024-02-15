@@ -18,7 +18,7 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
     def __init__(self, 
                  engine: ANEngineInterface):
         self._engine = weakref.ref(engine)
-        self._anchors = []
+        self._anchors = [ANAnchor]
 
     # Public Methods
 
@@ -93,4 +93,14 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
         new_anchor = ANAnchor(len(self._anchors), self._engine())
         self._anchors.append(new_anchor)
         self.save_anchors()
+    
+    def get_hotkeys_enabled_state(self):
+        i = 0
+        for anchor in self._anchors:
+            if anchor.hotkeys_enabled:
+                i += 1
+        if len(self._anchors) == i:
+            return True
+        else:
+            return False
     

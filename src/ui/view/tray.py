@@ -12,8 +12,8 @@ class ANTray(object):
     Object to wrap the system tray icon
     """
 
-    def __init__(self, app):
-        self.app = weakref.ref(app)
+    def __init__(self, view):
+        self._view = weakref.ref(view)
         self.tray_menu = tray.Menu(
             tray.MenuItem("Show", self._show_window), 
             tray.MenuItem("Hide", self._hide_window), 
@@ -25,11 +25,11 @@ class ANTray(object):
 
     def _show_window(self, icon) -> None:
         self.tray.visible = True
-        self.app().show_window()
+        self._view().show_window()
 
     def _hide_window(self) -> None:
-        self.app().hide_window()
+        self._view().hide_window()
     
     def _exit(self) -> None:
         self.tray.visible = False
-        self.app().exit()
+        self._view().exit()

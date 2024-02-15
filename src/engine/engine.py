@@ -14,8 +14,7 @@ class ANEngine(ANEngineInterface, ANNotifyListener, object):
     Class containing all internal business logic.
     """
 
-    def __init__(self, root):
-        self._root = root
+    def __init__(self):
         self._mouse = MouseController()
         self._notifier = ANNotifier()
         self._notifier.register_listener(self)
@@ -32,9 +31,6 @@ class ANEngine(ANEngineInterface, ANNotifyListener, object):
 
     def get_state_controller(self):
         return self._state_controller
-    
-    def get_root(self):
-        return self._root
 
     def get_mouse(self):
         return self._mouse

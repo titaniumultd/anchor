@@ -26,6 +26,7 @@ class ANAnchor(object):
         self._engine = weakref.ref(engine)
         self.mouse_position = None
         self.action = ACTION_LEFT_CLICK
+        self.hotkeys_enabled = True
         
         self._init_hotkeys()
 

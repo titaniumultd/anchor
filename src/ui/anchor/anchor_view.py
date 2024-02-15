@@ -14,15 +14,14 @@ class ANAnchorView(ANFrame):
     """
 
     def __init__(self, 
-                 master, 
-                 engine, 
+                 master,  
                  anchor):
         self._anchor = anchor
 
         self._click_hotkey = ctk.StringVar(value=anchor.click_hotkey.hotkey)
         self._record_hotkey = ctk.StringVar(value=anchor.record_hotkey.hotkey)
 
-        super().__init__(master, engine)
+        super().__init__(master)
 
     def load_subviews(self):
         self._scale_ui(UI_SCALE)
@@ -99,9 +98,9 @@ class ANAnchorView(ANFrame):
     def _record_entry_did_update(self, *args):
         if len(self._record_hotkey.get()) > 0 and self._record_hotkey.get()[-1] != '+':
             self._anchor.record_hotkey.hotkey = self._record_hotkey.get()
-            self._engine().get_notifier().notify()
+            #self._engine().get_notifier().notify() Todo: connect to viewmodel
 
     def _click_entry_did_update(self, *args):
         if len(self._click_hotkey.get()) > 0 and self._click_hotkey.get()[-1] != '+':
             self._anchor.click_hotkey.hotkey = self._click_hotkey.get()
-            self._engine().get_notifier().notify()
+            #self._engine().get_notifier().notify()

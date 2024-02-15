@@ -36,9 +36,9 @@ class ANEngineInterface(ABC):
     def get_state_controller(self) -> ANStateControllerInterface:
         pass
     
-    @abstractmethod
+    '''    @abstractmethod
     def get_root(self): # to-do: Add typing
-        pass
+        pass'''
 
     @abstractmethod
     def get_mouse(self): # to-do: Add typing

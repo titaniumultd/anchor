@@ -1,6 +1,6 @@
 
-from src.ui.custom.frame import ANFrame
 from src.ui.anchor.anchor_settings import ANAnchorSettings
+from src.ui.custom.frame import ANFrame
 
 
 class ANRootView(ANFrame):
@@ -13,7 +13,5 @@ class ANRootView(ANFrame):
 
         # tk.Label(self, background="red").place(x=0, y=0, relwidth=1, relheight=1)
 
-        self.anchor_settings = ANAnchorSettings(self, self.get_engine())
+        self.anchor_settings = ANAnchorSettings(self.get_root(), self.get_view())
         self.anchor_settings.pack(expand=True, fill='both', padx=10, pady=10)
-
-    
