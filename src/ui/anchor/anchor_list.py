@@ -1,5 +1,5 @@
 
-from src.common.anchor import ANAnchor
+from src.common.anchor_model import ANAnchor
 from src.ui.anchor.anchor_view import ANAnchorView
 from src.ui.custom.frame import ANFrame
 
@@ -14,8 +14,8 @@ class ANAnchorList(ANFrame):
         anchors = self._get_anchor_list()
 
         for anchor in anchors:
-            anchor_view = ANAnchorView(self, self._root, anchor)
+            anchor_view = ANAnchorView(self.get_root(), anchor, self.get_view())
             anchor_view.grid(column=0, sticky='news', pady=10)
 
     def _get_anchor_list(self) -> list[ANAnchor]:
-        return self._view.get_anchor_list()
+        return self._view().get_anchor_list()

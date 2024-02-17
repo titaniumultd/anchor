@@ -2,8 +2,8 @@
 import logging
 import weakref
 
-from src.common.anchor import ANAnchor
-from src.common.config import MAX_ANCHORS
+from src.common.anchor_model import ANAnchor
+from src.common.variables import MAX_ANCHORS
 from src.common.interfaces.engine_interface import ANEngineInterface
 from src.common.interfaces.anchors_interface import ANAnchorsControllerInterface
 from src.common.interfaces.profile_interface import ANProfileControllerInterface
@@ -18,7 +18,7 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
     def __init__(self, 
                  engine: ANEngineInterface):
         self._engine = weakref.ref(engine)
-        self._anchors = [ANAnchor]
+        self._anchors = []
 
     # Public Methods
 
@@ -45,9 +45,13 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
             current_profile = profile_controller.get_current_profile()
             profile_controller.update_profile(current_profile, [anchor.to_dict() for anchor in self._anchors])
 
-    def toggle_hotkeys(self) -> None:
+    def enable_all_hotkeys(self):
         for anchor in self._anchors:
-            anchor.toggle_hotkeys()
+            anchor.enable_hotkeys()
+    
+    def disable_all_hotkeys(self):
+        for anchor in self._anchors:
+            anchor.disable_hotkeys()
 
     def _get_root(self):
         return self._engine().get_root()
@@ -86,7 +90,7 @@ class ANAnchorsController(ANAnchorsControllerInterface, object):
         self._anchors.append(new_anchor)
         self.save_anchors()
     
-    def get_hotkeys_enabled_state(self):
+    def get_hotkeys_enabled_state(self) -> bool:
         i = 0
         for anchor in self._anchors:
             if anchor.hotkeys_enabled:

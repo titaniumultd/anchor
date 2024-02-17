@@ -4,7 +4,7 @@ import weakref
 import pystray as tray
 from PIL import Image
 
-from src.common.config import TASKBAR_ICON_PATH, TITLE_STR
+from src.common.variables import TASKBAR_ICON_PATH, TITLE_STR
 
 
 class ANTray(object):

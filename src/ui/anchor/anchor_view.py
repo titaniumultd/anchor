@@ -1,34 +1,41 @@
 
 import customtkinter as ctk
 
+from src.common.interfaces.anchor_view_model_interface import ANAnchorViewModelInterface
 from src.ui.custom.frame import ANFrame
-from src.common.config import ACTIONS, UI_SCALE
+from src.common.variables import ACTIONS
 
 X_PADDING = 4
 Y_PADDING = 4
 
-
 class ANAnchorView(ANFrame):
-    """
-    View contaiing anchor details and buttons.
-    """
 
     def __init__(self, 
-                 master,  
-                 anchor):
-        self._anchor = anchor
+                 root: ctk.CTk,
+                 view_model: ANAnchorViewModelInterface
+                 ):
+        super().__init__(root)
+        
+        self._root = root
+        self._view_model = view_model
 
-        self._click_hotkey = ctk.StringVar(value=anchor.click_hotkey.hotkey)
-        self._record_hotkey = ctk.StringVar(value=anchor.record_hotkey.hotkey)
+        self._anchor_index: int = None
+        self._record_hotkey_combo: ctk.StringVar = None
+        self._click_hotkey_combo: ctk.StringVar = None
+        self._anchor_action: str = None
+    
+    def update(self, update_packet: dict):
+        self._anchor_index = update_packet['anchor_index']
+        self._record_hotkey_combo.set(update_packet['record_hotkey_combo']) 
+        self._click_hotkey_combo.set(update_packet['click_hotkey_combo'])
+        self._anchor_action = update_packet['anchor_action']
 
-        super().__init__(master)
+        self._set_subview_content()
 
     def load_subviews(self):
-        self._scale_ui(UI_SCALE)
         self._init_subviews()
         self._layout_subviews()
         self._set_subview_content()
-        self._add_tracing()
 
     def _init_subviews(self):
         self.columnconfigure((0, 1, 2), weight=1)
@@ -36,11 +43,11 @@ class ANAnchorView(ANFrame):
 
         self.record_position_label = ctk.CTkLabel(self)
         self.record_position_entry = ctk.CTkEntry(self)
-        self.record_position_button = ctk.CTkButton(self, text="Set", command=self._update_record_hotkey)
+        self.record_position_button = ctk.CTkButton(self, text="Record", command=self._update_record_hotkey)
 
         self.click_position_label = ctk.CTkLabel(self)
         self.click_position_entry = ctk.CTkEntry(self)
-        self.click_position_button = ctk.CTkButton(self, text="Set", command=self._update_click_hotkey)
+        self.click_position_button = ctk.CTkButton(self, text="Record", command=self._update_click_hotkey)
 
         self.action_label = ctk.CTkLabel(self)
         self.action_combobox = ctk.CTkComboBox(self, values=ACTIONS, command=self._update_action)
@@ -56,51 +63,22 @@ class ANAnchorView(ANFrame):
 
         self.action_label.grid(row=2, column=0, pady=Y_PADDING, sticky='e')
         self.action_combobox.grid(row=2, column=1, padx=X_PADDING, pady=Y_PADDING, sticky='news')
-
+    
     def _set_subview_content(self):
-        self.record_position_label.configure(text=f"Drop Anchor {self.index + 1}:")
-        self.record_position_entry.configure(textvariable=self._record_hotkey)
+        self.record_position_label.configure(text = f"Drop Anchor {self._anchor_index + 1}:")
+        self.record_position_entry.configure(textvariable = self._record_hotkey_combo)
 
-        self.click_position_label.configure(text=f"Hotkey {self.index + 1}:")
-        self.click_position_entry.configure(textvariable=self._click_hotkey)
+        self.click_position_label.configure(text=f"Action Hotkey:")
+        self.click_position_entry.configure(textvariable = self._click_hotkey_combo)
 
-        self.action_label.configure(text=f"Action {self.index + 1}:")
-        self.action_combobox.set(self._anchor.action)
-
-    def _scale_ui(self, scalar:float):
-        ctk.set_window_scaling(scalar)
-        ctk.set_widget_scaling(scalar)
-
-    def _add_tracing(self):
-        """
-        Adds variable tracing for entry fields so we can persist any manual changes the user makes.
-        """
-        self._record_hotkey.trace_add('write', self._record_entry_did_update)
-        self._click_hotkey.trace_add('write', self._click_entry_did_update)
-
-    @property
-    def index(self):
-        return self._anchor.index
-
+        self.action_label.configure(text=f"Action:")
+        self.action_combobox.set(self._anchor_action)
+    
     def _update_record_hotkey(self):
-        self._anchor.update_record_hotkey()
-        self._record_hotkey.set(self._anchor.record_hotkey.hotkey)
-
+        self._view_model.request_hotkey_update('record')
+    
     def _update_click_hotkey(self):
-        self._anchor.update_click_hotkey()
-        self._click_hotkey.set(self._anchor.click_hotkey.hotkey)
+        self._view_model.request_hotkey_update('click')
 
-    def _update_action(self, action):
-        self._anchor.update_action(self.action_combobox.get())
-
-    # Tracing Callbacks
-
-    def _record_entry_did_update(self, *args):
-        if len(self._record_hotkey.get()) > 0 and self._record_hotkey.get()[-1] != '+':
-            self._anchor.record_hotkey.hotkey = self._record_hotkey.get()
-            #self._engine().get_notifier().notify() Todo: connect to viewmodel
-
-    def _click_entry_did_update(self, *args):
-        if len(self._click_hotkey.get()) > 0 and self._click_hotkey.get()[-1] != '+':
-            self._anchor.click_hotkey.hotkey = self._click_hotkey.get()
-            #self._engine().get_notifier().notify()
+    def _update_action(self):
+        self._view_model.update(self.action_combobox.get())

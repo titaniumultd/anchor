@@ -1,6 +1,8 @@
 
 from abc import ABC, abstractmethod
 
+from src.common.interfaces.anchor_model_interface import ANAnchorModelInterface
+
 
 class ANAnchorsControllerInterface(ABC):
     """
@@ -12,7 +14,7 @@ class ANAnchorsControllerInterface(ABC):
         pass
 
     @abstractmethod
-    def get_anchors(self) -> list:
+    def get_anchors(self) -> list[ANAnchorModelInterface]:
         """
         Returns the anchors in a list.
         """
@@ -23,5 +25,13 @@ class ANAnchorsControllerInterface(ABC):
         pass
 
     @abstractmethod
-    def toggle_hotkeys(self) -> None:
+    def get_hotkeys_enabled_state(self) -> bool:
+        pass
+
+    @abstractmethod
+    def disable_all_hotkeys(self):
+        pass
+
+    @abstractmethod
+    def enable_all_hotkeys(self):
         pass

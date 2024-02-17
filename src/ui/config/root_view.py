@@ -1,5 +1,5 @@
 
-from src.ui.anchor.anchor_settings import ANAnchorSettings
+from src.ui.config.config_view import ANAnchorSettings
 from src.ui.custom.frame import ANFrame
 
 
