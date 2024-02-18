@@ -2,9 +2,9 @@
 from customtkinter import CTk
 
 from src.common.interfaces.anchor_model_interface import ANAnchorModelInterface
-from src.common.interfaces.anchor_view_interface import ANAnchorViewInterface
-from src.common.interfaces.anchor_view_model_interface import ANAnchorViewModelInterface
-from src.common.interfaces.anchors_interface import ANAnchorsControllerInterface
+from src.common.interfaces.ui.anchor_view_interface import ANAnchorViewInterface
+from src.common.interfaces.ui.anchor_view_model_interface import ANAnchorViewModelInterface
+from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorsControllerInterface
 from src.ui.anchor.anchor_view import ANAnchorView
 
 

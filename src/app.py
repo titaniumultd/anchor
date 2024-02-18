@@ -14,8 +14,7 @@ class App(object):
         logging.basicConfig(filename='error.log', level=logging.INFO)
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(TITLE_STR)
         
-        self._model = ANEngine()
-        self._view_model = ANViewModel(self._model)
+        self._engine = ANEngine()
 
     def run(self):
         self._model.load()

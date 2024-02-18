@@ -3,7 +3,7 @@ import json
 
 from pathlib import Path
 
-from src.common.interfaces.state_interface import ANStateControllerInterface
+from src.common.interfaces.controllers.state_controller_interface import ANStateControllerInterface
 
 
 class ANStateController(ANStateControllerInterface, object):

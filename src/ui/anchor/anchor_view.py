@@ -1,7 +1,7 @@
 
 import customtkinter as ctk
 
-from src.common.interfaces.anchor_view_model_interface import ANAnchorViewModelInterface
+from src.common.interfaces.ui.anchor_view_model_interface import ANAnchorViewModelInterface
 from src.ui.custom.frame import ANFrame
 from src.common.variables import ACTIONS
 

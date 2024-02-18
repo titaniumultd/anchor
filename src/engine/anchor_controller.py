@@ -5,12 +5,12 @@ import weakref
 from src.common.anchor_model import ANAnchor
 from src.common.variables import MAX_ANCHORS
 from src.common.interfaces.engine_interface import ANEngineInterface
-from src.common.interfaces.anchors_interface import ANAnchorsControllerInterface
-from src.common.interfaces.profile_interface import ANProfileControllerInterface
-from src.common.interfaces.state_interface import ANStateControllerInterface
+from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
+from src.common.interfaces.controllers.profile_controller_interface import ANProfileControllerInterface
+from src.common.interfaces.controllers.state_controller_interface import ANStateControllerInterface
 
 
-class ANAnchorsController(ANAnchorsControllerInterface, object):
+class ANAnchorController(ANAnchorControllerInterface, object):
     """
     Manages anchors. To-Do: Separate Anchors from UI
     """

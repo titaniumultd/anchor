@@ -3,8 +3,8 @@ import logging
 import weakref
 
 from src.common.interfaces.engine_interface import ANEngineInterface
-from src.common.interfaces.profile_interface import ANProfileControllerInterface
-from src.common.interfaces.state_interface import ANStateControllerInterface
+from src.common.interfaces.controllers.profile_controller_interface import ANProfileControllerInterface
+from src.common.interfaces.controllers.state_controller_interface import ANStateControllerInterface
 
 
 class ANProfileController(ANProfileControllerInterface, object):

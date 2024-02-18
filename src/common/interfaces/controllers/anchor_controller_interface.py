@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from src.common.interfaces.anchor_model_interface import ANAnchorModelInterface
 
 
-class ANAnchorsControllerInterface(ABC):
+class ANAnchorControllerInterface(ABC):
     """
     Interface declaration for the anchors controller.
     """

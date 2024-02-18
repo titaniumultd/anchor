@@ -1,10 +1,12 @@
 
 from abc import ABC, abstractmethod
 
-from src.common.interfaces.anchors_interface import ANAnchorsControllerInterface
-from src.common.interfaces.profile_interface import ANProfileControllerInterface
-from src.common.interfaces.state_interface import ANStateControllerInterface
+from pynput.mouse import Controller as MouseController
 
+from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
+from src.common.interfaces.controllers.profile_controller_interface import ANProfileControllerInterface
+from src.common.interfaces.controllers.state_controller_interface import ANStateControllerInterface
+from src.common.interfaces.config_model_interface import ANConfigModelInterface
 
 class ANEngineInterface(ABC):
     """
@@ -25,7 +27,7 @@ class ANEngineInterface(ABC):
     """
 
     @abstractmethod
-    def get_anchors_controller(self) -> ANAnchorsControllerInterface:
+    def get_anchors_controller(self) -> ANAnchorControllerInterface:
         pass
 
     @abstractmethod
@@ -35,17 +37,13 @@ class ANEngineInterface(ABC):
     @abstractmethod
     def get_state_controller(self) -> ANStateControllerInterface:
         pass
-    
-    '''    @abstractmethod
-    def get_root(self): # to-do: Add typing
-        pass'''
 
     @abstractmethod
-    def get_mouse(self): # to-do: Add typing
+    def get_mouse_controller(self) -> MouseController:
         pass
 
     @abstractmethod
-    def get_notifier(self): # to-do: Add typing
+    def get_config_model(self) -> ANConfigModelInterface:
         pass
 
     @abstractmethod
