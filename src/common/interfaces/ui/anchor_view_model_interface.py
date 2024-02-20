@@ -1,20 +1,22 @@
 
 from abc import ABC, abstractmethod
+import customtkinter as ctk
 
 
 class ANAnchorViewModelInterface(ABC):
+    def __init__(self):
+        self.record_hotkey_strvar:ctk.StringVar = None
+        self.click_hotkey_strvar:ctk.StringVar = None
+        self.anchor_action:str = None
     
     @abstractmethod
-    def update(self,
-               anchor_index:int,
-               record_combo:str, 
-               click_combo:str, 
-               action:str
-               ):
+    def update(self):
         pass
-
+    
+    @abstractmethod
     def update_action(self, action:str):
         pass
 
+    @abstractmethod
     def request_hotkey_update(self, hotkey:str):
         pass

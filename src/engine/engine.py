@@ -1,5 +1,6 @@
 
 from pynput.mouse import Controller as MouseController
+from customtkinter import CTk
 
 from src.common.interfaces.engine_interface import ANEngineInterface
 from src.common.interfaces.ui.config_view_model_interface import ANConfigViewModelInterface
@@ -7,6 +8,8 @@ from src.common.interfaces.ui.tray_view_model_interface import ANTrayViewModelIn
 from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
 from src.common.interfaces.controllers.profile_controller_interface import ANProfileControllerInterface
 from src.common.interfaces.controllers.state_controller_interface import ANStateControllerInterface
+from src.common.interfaces.config_model_interface import ANConfigModelInterface
+from src.common.interfaces.ui.anchor_view_model_interface import ANAnchorViewModelInterface
 
 from src.common.config_model import ANConfigModel
 from src.engine.anchor_controller import ANAnchorController
@@ -21,7 +24,9 @@ class ANEngine(ANEngineInterface, object):
     Class containing all internal business logic.
     """
 
-    def __init__(self):
+    def __init__(self, root:CTk):
+        self._root = root
+    
         self._mouse_controller = MouseController()
         self._state_controller:ANStateControllerInterface = ANStateController()
         self._profile_controller:ANProfileControllerInterface = ANProfileController(self)
@@ -30,6 +35,7 @@ class ANEngine(ANEngineInterface, object):
 
         self._config_view_model:ANConfigViewModelInterface = None
         self._tray_view_model:ANTrayViewModelInterface = None
+        self._anchor_view_model:ANAnchorViewModelInterface = None
 
     def get_anchors_controller(self) -> ANAnchorControllerInterface:
         return self._anchors_controller
@@ -42,6 +48,9 @@ class ANEngine(ANEngineInterface, object):
 
     def get_mouse_controller(self) -> MouseController:
         return self._mouse_controller
+    
+    def get_root(self) -> CTk:
+        return self._root
 
     def load(self) -> None:
         self._state_controller.load_state()
@@ -49,12 +58,11 @@ class ANEngine(ANEngineInterface, object):
         self._anchors_controller.load_anchors()
 
         self._load_ui()
-
-    def mainloop(self):
-        while running:
-            self._view_models.update()
-            sleep()
+    
+    def update(self):
+        self._config_view_model.update()
+        self._tray_view_model.update()
 
     def _load_ui(self):
-        self._config_view_model = ANConfigViewModel(self._config_model, self._anchors_controller)
+        self._config_view_model = ANConfigViewModel(self)
         self._tray_view_model = ANTrayViewModel(self)

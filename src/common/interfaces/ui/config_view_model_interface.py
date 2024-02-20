@@ -15,7 +15,7 @@ class ANConfigViewModelInterface(ABC):
         pass   
 
     @abstractmethod
-    def get_global_hotkey_state(self) -> bool:
+    def get_anchors(self) -> list[ANAnchorModelInterface]:
         pass
 
     @abstractmethod
@@ -28,8 +28,4 @@ class ANConfigViewModelInterface(ABC):
 
     @abstractmethod
     def exit_app(self):
-        pass
-
-    @abstractmethod
-    def get_anchors(self) -> list[ANAnchorModelInterface]:
         pass

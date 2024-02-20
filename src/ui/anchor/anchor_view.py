@@ -19,18 +19,11 @@ class ANAnchorView(ANFrame):
         self._root = root
         self._view_model = view_model
 
-        self._anchor_index: int = None
-        self._record_hotkey_combo: ctk.StringVar = None
-        self._click_hotkey_combo: ctk.StringVar = None
-        self._anchor_action: str = None
-    
-    def update(self, update_packet: dict):
-        self._anchor_index = update_packet['anchor_index']
-        self._record_hotkey_combo.set(update_packet['record_hotkey_combo']) 
-        self._click_hotkey_combo.set(update_packet['click_hotkey_combo'])
-        self._anchor_action = update_packet['anchor_action']
+        self._record_hotkey_combo: ctk.StringVar = self._view_model.record_hotkey_strvar
+        self._click_hotkey_combo: ctk.StringVar = self._view_model.click_hotkey_strvar
+        self._anchor_action: str = self._view_model.anchor_action
 
-        self._set_subview_content()
+        self.grid(column=0, sticky='news', pady=10)
 
     def load_subviews(self):
         self._init_subviews()
@@ -65,7 +58,7 @@ class ANAnchorView(ANFrame):
         self.action_combobox.grid(row=2, column=1, padx=X_PADDING, pady=Y_PADDING, sticky='news')
     
     def _set_subview_content(self):
-        self.record_position_label.configure(text = f"Drop Anchor {self._anchor_index + 1}:")
+        self.record_position_label.configure(text = f"Drop Anchor:")
         self.record_position_entry.configure(textvariable = self._record_hotkey_combo)
 
         self.click_position_label.configure(text=f"Action Hotkey:")
@@ -81,4 +74,4 @@ class ANAnchorView(ANFrame):
         self._view_model.request_hotkey_update('click')
 
     def _update_action(self):
-        self._view_model.update(self.action_combobox.get())
+        self._view_model.update_action(self.action_combobox.get())
