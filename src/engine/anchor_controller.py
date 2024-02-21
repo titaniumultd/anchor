@@ -6,13 +6,13 @@ from src.common.anchor_model import ANAnchor
 from src.common.variables import MAX_ANCHORS
 from src.common.interfaces.engine_interface import ANEngineInterface
 from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
-from src.common.interfaces.controllers.profile_controller_interface import ANProfileControllerInterface
 from src.common.interfaces.controllers.state_controller_interface import ANStateControllerInterface
+from src.common.interfaces.anchor_model_interface import ANAnchorModelInterface
 
 
 class ANAnchorController(ANAnchorControllerInterface, object):
     """
-    Manages anchors. To-Do: Separate Anchors from UI
+    Manages anchors
     """
 
     def __init__(self, 
@@ -20,83 +20,37 @@ class ANAnchorController(ANAnchorControllerInterface, object):
         self._engine = weakref.ref(engine)
         self._anchors = []
 
-    # Public Methods
+        self._init_anchors()
 
-    def load_anchors(self) -> list:
-        profile_controller = self._get_profile_controller()
-
-        if profile_controller.has_profiles():
-            current_profile = profile_controller.get_current_profile()
-            raw_anchors = self._get_profile_anchors(current_profile)
-            for anchor_dict in raw_anchors:
-                new_anchor = ANAnchor.from_dict(anchor_dict, self._engine())
-                self._anchors.append(new_anchor)
-
-        while len(self._anchors) < MAX_ANCHORS:
-            self._drop_an_anchor()
-
-    def get_anchors(self) -> list:
+    def get_anchors(self) -> list[ANAnchorModelInterface]:
         return self._anchors
-    
-    def save_anchors(self) -> None:
-        profile_controller = self._get_profile_controller()
-
-        if profile_controller.has_profiles():
-            current_profile = profile_controller.get_current_profile()
-            profile_controller.update_profile(current_profile, [anchor.to_dict() for anchor in self._anchors])
-
-    def enable_all_hotkeys(self):
-        for anchor in self._anchors:
-            anchor.enable_hotkeys()
-    
-    def disable_all_hotkeys(self):
-        for anchor in self._anchors:
-            anchor.disable_hotkeys()
-
-    def _get_root(self):
-        return self._engine().get_root()
-    
-    def _get_mouse(self):
-        return self._engine().get_mouse()
-    
-    def _get_notifier(self):
-        return self._engine().get_notifier()
 
     def _get_state_controller(self) -> ANStateControllerInterface:
         return self._engine().get_state_controller()
-
-    def _get_profile_controller(self) -> ANProfileControllerInterface:
-        return self._engine().get_profile_controller()
     
-    def _get_profile_anchors(self, name: str) -> list:
-        profile_controller = self._get_profile_controller()
-
-        if profile_controller.has_profiles():
-            profiles = profile_controller.get_profiles()
-
-            if name in profiles:
-                return profiles[name]
-            else:
-                logging.error(f"No such profile: {name}")
-
-        return []
-    
-    def _drop_an_anchor(self):
-        # to-do: clean-up
-        if len(self._anchors) >= MAX_ANCHORS:
-            return
-        
-        new_anchor = ANAnchor(len(self._anchors), self._engine())
+    def _create_new_anchor(self):
+        new_anchor = ANAnchor()
         self._anchors.append(new_anchor)
-        self.save_anchors()
+
+    def _load_anchor_from_state(self,  anchor_dict: dict):
+        anchor = ANAnchor()
+
+        anchor.set_hotkey('record', anchor_dict['record_hotkey'])
+        anchor.set_hotkey('click', anchor_dict['click_hotkey'])
+        anchor.set_anchor_position(anchor_dict['mouse_position'])
+        anchor.set_action(anchor_dict['action'])
+
+        self._anchors.append(anchor)
     
-    def get_hotkeys_enabled_state(self) -> bool:
-        i = 0
-        for anchor in self._anchors:
-            if anchor.hotkeys_enabled:
-                i += 1
-        if len(self._anchors) == i:
-            return True
-        else:
-            return False
+    def _get_engine(self) -> ANEngineInterface:
+        return self._engine()
     
+    def _init_anchors(self):
+        state = self._get_state_controller().get_state()
+
+        if state is not None:
+            for anchor_dict in state:
+                self._load_anchor_from_state(anchor_dict)
+
+        while len(self._anchors) < MAX_ANCHORS:
+            self._create_new_anchor()

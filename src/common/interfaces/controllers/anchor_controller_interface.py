@@ -10,28 +10,8 @@ class ANAnchorControllerInterface(ABC):
     """
 
     @abstractmethod
-    def load_anchors(self) -> list:
-        pass
-
-    @abstractmethod
     def get_anchors(self) -> list[ANAnchorModelInterface]:
         """
         Returns the anchors in a list.
         """
-        pass
-
-    @abstractmethod
-    def save_anchors(self) -> None:
-        pass
-
-    @abstractmethod
-    def get_hotkeys_enabled_state(self) -> bool:
-        pass
-
-    @abstractmethod
-    def disable_all_hotkeys(self):
-        pass
-
-    @abstractmethod
-    def enable_all_hotkeys(self):
         pass

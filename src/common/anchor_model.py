@@ -1,15 +1,15 @@
 
 from src.common.interfaces.anchor_model_interface import ANAnchorModelInterface
-
+from src.common.variables import ACTION_LEFT_CLICK
 
 class ANAnchor(ANAnchorModelInterface, object):
         
         def __init__(self) -> object:
             self._anchor_position: tuple[int,int] = None
-            self._action: str = None
-            self._hotkeys: dict[str:str] = {
-                'record': None,
-                'click': None
+            self._action: str = ACTION_LEFT_CLICK
+            self._hotkeys: dict[['record', 'click']:str] = {
+                'record': 'undefined',
+                'click': 'undefined'
             }
         
         def get_position(self) -> tuple[int,int]:

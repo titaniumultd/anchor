@@ -24,8 +24,8 @@ class ANConfigViewModel(ANConfigViewModelInterface, object):
         self._config_model = config_model
         self._anchor_controller = anchor_controller
 
-        self._view:ANConfigViewInterface = ANConfigView(self._root, self)
-        self._global_hotkey_state:ctk.IntVar = ctk.IntVar(self._config_model.get_global_hotkey_state())
+        self._global_hotkey_state:ctk.IntVar = ctk.IntVar(value = 1 if self._config_model.get_global_hotkey_state() else 0)
+        self._view:ANConfigViewInterface = ANConfigView(self._root, self, self._anchor_controller, self._global_hotkey_state)
 
         self._root.protocol("WM_DELETE_WINDOW", self.hide_window)
 
@@ -35,7 +35,7 @@ class ANConfigViewModel(ANConfigViewModelInterface, object):
         else:
             self._global_hotkey_state.set(0)
 
-    def toggle_global_hotkeys_enabled(self):
+    def toggle_global_hotkey_state(self):
         self._config_model.toggle_global_hotkey_state()
         self._get_engine().update()
 

@@ -19,7 +19,7 @@ class ANAnchorList(ANFrame):
         self._root = root
         self._anchor_controller = anchor_controller
 
-        self.pack(expand=True, fill='both')
+        #self.pack(expand=True, fill='both')
 
     def load_subviews(self):
         self.grid_columnconfigure(0, weight=1)

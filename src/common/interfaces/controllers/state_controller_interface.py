@@ -8,17 +8,6 @@ class ANStateControllerInterface(ABC):
     """
 
     @abstractmethod
-    def load_state(self) -> None:
-        """
-        Load's application state and returns true if successful.
-        """
-        pass
-
-    @abstractmethod
-    def save_state(self) -> None:
-        pass
-
-    @abstractmethod
     def get_state(self) -> dict:
         pass
 

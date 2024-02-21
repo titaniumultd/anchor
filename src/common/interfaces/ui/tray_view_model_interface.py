@@ -5,10 +5,6 @@ from abc import ABC, abstractmethod
 class ANTrayViewModelInterface(ABC):
 
     @abstractmethod
-    def update(self):
-        pass
-
-    @abstractmethod
     def show_config_window(self):
         pass
 
