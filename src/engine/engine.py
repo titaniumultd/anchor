@@ -55,6 +55,6 @@ class ANEngine(ANEngineInterface, object):
 
     def _load_ui(self):
         self._config_view_model = ANConfigViewModel(self, self._root, self._config_model, self._anchors_controller)
-        self._tray_view_model = ANTrayViewModel(self)
+        self._tray_view_model = ANTrayViewModel(self._config_view_model)
 
         self._root.mainloop()

@@ -27,26 +27,22 @@ class ANTrayView(object):
 
         threading.Thread(target=self._tray_icon.run, kwargs={'setup':self._show_config_window}, daemon=True).start() # macOS / linux incompatible
 
-    def _get_hotkey_state(self) -> bool:
-        vm = self._view_model()
-        return vm.get_global_hotkey_state()
+    def _get_hotkey_state(self, menu_item:str) -> bool:
+        return self._get_view_model().get_global_hotkey_state()
 
     def _show_config_window(self, icon):
         self._tray_icon.visible = True
-
-        vm = self._view_model()
-        vm.show_config_window()
+        self._get_view_model().show_config_window()
 
     def _hide_config_window(self):
-        vm = self._view_model()
-        vm.hide_config_window()
+        self._get_view_model().hide_config_window()
     
     def _toggle_global_hotkeys(self):
-        vm = self._view_model()
-        vm.toggle_global_hotkey_state()
+        self._get_view_model().toggle_global_hotkey_state()
     
     def _exit(self):
         self._tray_icon.visible = False
+        self._get_view_model().exit_app()
 
-        vm = self._view_model()
-        vm.exit_app()
+    def _get_view_model(self) -> ANTrayViewModelInterface:
+        return self._view_model()

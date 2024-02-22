@@ -42,6 +42,9 @@ class ANConfigViewModel(ANConfigViewModelInterface, object):
     def get_anchors(self) -> list[ANAnchorModelInterface]:
         return self._anchor_controller.get_anchors()
     
+    def get_global_hotkey_state(self) -> bool:
+        return True if self._global_hotkey_state.get() > 0 else False
+    
     def show_window(self):
         self._root.deiconify()
 

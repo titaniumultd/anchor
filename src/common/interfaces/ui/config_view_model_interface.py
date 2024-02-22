@@ -19,6 +19,10 @@ class ANConfigViewModelInterface(ABC):
         pass
 
     @abstractmethod
+    def get_global_hotkey_state(self) -> bool:
+        pass
+    
+    @abstractmethod
     def show_window(self):
         pass
 
