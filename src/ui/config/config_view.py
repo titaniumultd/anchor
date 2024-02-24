@@ -42,11 +42,11 @@ class ANConfigView(ANFrame):
         self.activate_hotkeys_button = ctk.CTkCheckBox(master=self,
                                                        text="Activate hotkeys",
                                                        variable=self._view_model.hotkey_var,
-                                                       command=self._toggle_global_hotkeys)
+                                                       command=self.toggle_global_hotkeys)
 
         self.activate_hotkeys_button.pack(side='right', anchor=ctk.S, pady=(10, 0))
 
-    def _toggle_global_hotkeys(self):
+    def toggle_global_hotkeys(self):
         self._view_model.toggle_global_hotkey_state()
 
     def show_window(self):

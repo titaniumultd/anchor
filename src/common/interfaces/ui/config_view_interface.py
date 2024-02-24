@@ -15,3 +15,7 @@ class ANConfigViewInterface(ABC):
     @abstractmethod
     def exit_app(self):
         pass
+
+    @abstractmethod
+    def toggle_global_hotkeys(self):
+        pass
