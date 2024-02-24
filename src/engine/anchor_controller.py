@@ -35,7 +35,7 @@ class ANAnchorController(ANAnchorControllerInterface, object):
     def _load_anchor_from_state(self,  anchor_dict: dict):
         anchor = ANAnchor()
 
-        anchor.set_hotkey('record', anchor_dict['record_hotkey'])
+        anchor.set_hotkey('record', anchor_dict.get('record_hotkey'))
         anchor.set_hotkey('click', anchor_dict['click_hotkey'])
         anchor.set_anchor_position(anchor_dict['mouse_position'])
         anchor.set_action(anchor_dict['action'])
@@ -50,7 +50,7 @@ class ANAnchorController(ANAnchorControllerInterface, object):
 
         if state is not None:
             for anchor_dict in state:
-                self._load_anchor_from_state(anchor_dict)
+                self._load_anchor_from_state(state[anchor_dict])
 
         while len(self._anchors) < MAX_ANCHORS:
             self._create_new_anchor()

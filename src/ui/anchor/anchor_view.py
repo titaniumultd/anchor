@@ -2,30 +2,30 @@
 import customtkinter as ctk
 
 from src.common.interfaces.ui.anchor_view_model_interface import ANAnchorViewModelInterface
+from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
+
+from src.ui.anchor.anchor_view_model import ANAnchorViewModel
 from src.ui.custom.frame import ANFrame
 from src.common.variables import ACTIONS
 
 X_PADDING = 4
 Y_PADDING = 4
 
-class ANAnchorView(ANFrame):
+class ANAnchorView(ANFrame, object):
 
     def __init__(self, 
-                 root: ctk.CTk,
-                 view_model: ANAnchorViewModelInterface
+                 master: ANFrame,
+                 anchor: ANAnchorViewModelInterface,
+                 anchor_controller: ANAnchorControllerInterface
                  ):
-        super().__init__(root)
-        
-        self._root = root
-        self._view_model = view_model
 
-        self._record_hotkey_combo: ctk.StringVar = self._view_model.record_hotkey_strvar
-        self._click_hotkey_combo: ctk.StringVar = self._view_model.click_hotkey_strvar
+        self._view_model:ANAnchorViewModelInterface = ANAnchorViewModel(anchor, anchor_controller)
+
         self._anchor_action: str = self._view_model.anchor_action
+        super().__init__(master)
 
+    def _load_subviews(self):
         self.grid(column=0, sticky='news', pady=10)
-
-    def load_subviews(self):
         self._init_subviews()
         self._layout_subviews()
         self._set_subview_content()
@@ -59,10 +59,10 @@ class ANAnchorView(ANFrame):
     
     def _set_subview_content(self):
         self.record_position_label.configure(text = f"Drop Anchor:")
-        self.record_position_entry.configure(textvariable = self._record_hotkey_combo)
+        self.record_position_entry.configure(textvariable = self._view_model.record_hotkey_strvar)
 
         self.click_position_label.configure(text=f"Action Hotkey:")
-        self.click_position_entry.configure(textvariable = self._click_hotkey_combo)
+        self.click_position_entry.configure(textvariable = self._view_model.click_hotkey_strvar)
 
         self.action_label.configure(text=f"Action:")
         self.action_combobox.set(self._anchor_action)

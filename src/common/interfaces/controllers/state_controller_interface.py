@@ -8,7 +8,7 @@ class ANStateControllerInterface(ABC):
     """
 
     @abstractmethod
-    def get_state(self) -> dict:
+    def get_state(self) -> dict[dict]:
         pass
 
     @abstractmethod

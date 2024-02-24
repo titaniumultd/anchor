@@ -2,7 +2,6 @@
 from abc import ABC, abstractmethod
 
 from pynput.mouse import Controller as MouseController
-from customtkinter import CTk
 
 from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
 from src.common.interfaces.controllers.state_controller_interface import ANStateControllerInterface
@@ -39,11 +38,7 @@ class ANEngineInterface(ABC):
         pass
 
     @abstractmethod
-    def get_root(self) -> CTk:
-        pass
-
-    @abstractmethod
-    def load(self) -> None:
+    def get_config_model(self) -> ANConfigModelInterface:
         pass
 
     @abstractmethod

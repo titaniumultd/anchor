@@ -5,5 +5,13 @@ from abc import ABC, abstractmethod
 class ANConfigViewInterface(ABC):
 
     @abstractmethod
-    def update(self, update_packet: dict):
+    def show_window(self):
+        pass
+
+    @abstractmethod
+    def hide_window(self):
+        pass
+
+    @abstractmethod
+    def exit_app(self):
         pass

@@ -2,9 +2,13 @@
 
 from abc import ABC, abstractmethod
 
-from src.common.interfaces.anchor_model_interface import ANAnchorModelInterface
+from customtkinter import BooleanVar
+
 
 class ANConfigViewModelInterface(ABC):
+
+    def __init__(self):
+        self.hotkey_var: BooleanVar
 
     @abstractmethod
     def update(self):
@@ -13,23 +17,3 @@ class ANConfigViewModelInterface(ABC):
     @abstractmethod
     def toggle_global_hotkey_state(self):
         pass   
-
-    @abstractmethod
-    def get_anchors(self) -> list[ANAnchorModelInterface]:
-        pass
-
-    @abstractmethod
-    def get_global_hotkey_state(self) -> bool:
-        pass
-    
-    @abstractmethod
-    def show_window(self):
-        pass
-
-    @abstractmethod
-    def hide_window(self):
-        pass
-
-    @abstractmethod
-    def exit_app(self):
-        pass
