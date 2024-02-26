@@ -36,7 +36,7 @@ class ANConfigView(ANFrame):
         
     def _load_anchor_subview(self, engine:ANEngineInterface):
         self._anchor_list = ANAnchorList(self, engine)
-        self._anchor_list.pack(anchor=ctk.S, expand=True, fill='both')
+        self._anchor_list.grid(column=0, row=0)
     
     def _load_config_subview(self):
         self.activate_hotkeys_button = ctk.CTkCheckBox(master=self,
@@ -44,7 +44,7 @@ class ANConfigView(ANFrame):
                                                        variable=self._view_model.hotkey_var,
                                                        command=self.toggle_global_hotkeys)
 
-        self.activate_hotkeys_button.pack(side='right', anchor=ctk.S, pady=(10, 0))
+        self.activate_hotkeys_button.grid(column=0, row=1)
 
     def toggle_global_hotkeys(self):
         self._view_model.toggle_global_hotkey_state()

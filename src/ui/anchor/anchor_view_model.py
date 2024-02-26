@@ -23,8 +23,8 @@ class ANAnchorViewModel(ANAnchorViewModelInterface, object):
     def update_action(self, action:str):
         self._anchor.set_action(action)
 
-    def request_hotkey_update(self, hotkey:str):
-        self._anchor_controller.update_hotkey(self._anchor, hotkey)
+    def request_hotkey_update(self, hotkey_type:str):
+        self._anchor_controller.update_hotkey(self._anchor, hotkey_type, self.update)
 
     def update(self):
         self.record_hotkey_strvar.set(self._anchor.get_hotkey('record'))

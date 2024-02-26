@@ -44,6 +44,7 @@ class ANTray(object):
     
     def _toggle_global_hotkeys(self):
         self._config_view.toggle_global_hotkeys()
+        self._tray_icon.update_menu()
     
     def _exit(self):
         self._tray_icon.visible = False

@@ -73,5 +73,5 @@ class ANAnchorView(ANFrame, object):
     def _update_click_hotkey(self):
         self._view_model.request_hotkey_update('click')
 
-    def _update_action(self):
-        self._view_model.update_action(self.action_combobox.get())
+    def _update_action(self, action:str):
+        self._view_model.update_action(action)

@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from pynput.mouse import Controller as MouseController
 
 from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
+from src.common.interfaces.controllers.keyboard_controller_interface import ANKeyboardControllerInterface
 from src.common.interfaces.controllers.state_controller_interface import ANStateControllerInterface
 from src.common.interfaces.config_model_interface import ANConfigModelInterface
 
@@ -35,6 +36,10 @@ class ANEngineInterface(ABC):
 
     @abstractmethod
     def get_mouse_controller(self) -> MouseController:
+        pass
+
+    @abstractmethod
+    def get_keyboard_controller(self) -> ANKeyboardControllerInterface:
         pass
 
     @abstractmethod
