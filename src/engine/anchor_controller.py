@@ -7,7 +7,6 @@ from src.common.variables import MAX_ANCHORS
 from src.common.interfaces.engine_interface import ANEngineInterface
 from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
 from src.common.interfaces.anchor_model_interface import ANAnchorModelInterface
-from src.engine import mouse_controller
 
 
 class ANAnchorController(ANAnchorControllerInterface, object):
@@ -47,11 +46,13 @@ class ANAnchorController(ANAnchorControllerInterface, object):
         
         anchor.set_anchor_position(anchor_dict['mouse_position'])
         anchor.set_action(anchor_dict['action'])
-
+        #todo fix loading from state
         if anchor_dict.get('record_hotkey') != 'undefined':
+            anchor.set_hotkey('record', anchor_dict['record_hotkey'])
             self._bind_record(anchor, anchor_dict['record_hotkey'])
 
         if anchor_dict.get('click_hotkey') != 'undefined':
+            anchor.set_hotkey('click', anchor_dict['click_hotkey'])
             self._bind_click(anchor, anchor_dict['click_hotkey'])
 
         self._anchors.append(anchor)
