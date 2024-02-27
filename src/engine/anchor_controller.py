@@ -54,4 +54,5 @@ class ANAnchorController(ANAnchorControllerInterface, object):
     def _new_hotkey_threaded(self, anchor:ANAnchorModelInterface, hotkey_type:str, callback:callable):
         new_hotkey = self._engine().get_keyboard_controller().record_hotkey()
         anchor.set_hotkey(hotkey_type, new_hotkey)
+        self._engine().update()
         callback()
