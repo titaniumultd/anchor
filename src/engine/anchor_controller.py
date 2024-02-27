@@ -54,5 +54,11 @@ class ANAnchorController(ANAnchorControllerInterface, object):
     def _new_hotkey_threaded(self, anchor:ANAnchorModelInterface, hotkey_type:str, callback:callable):
         new_hotkey = self._engine().get_keyboard_controller().record_hotkey()
         anchor.set_hotkey(hotkey_type, new_hotkey)
+        self._bind_action(anchor, hotkey_type, new_hotkey)
         self._engine().update()
         callback()
+
+    def _bind_action(self, anchor:ANAnchorModelInterface, hotkey_type:str, hotkey:str):
+        def action(click:str, position:tuple[int, int]):
+            self._engine().get_mouse_controller().set_position()
+        self._engine().get_keyboard_controller().set_hotkey(hotkey)

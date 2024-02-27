@@ -1,15 +1,15 @@
 
-from pynput.mouse import Controller as MouseController
-
 from src.common.interfaces.engine_interface import ANEngineInterface
 from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
 from src.common.interfaces.controllers.state_controller_interface import ANStateControllerInterface
 from src.common.interfaces.config_model_interface import ANConfigModelInterface
 from src.common.interfaces.controllers.keyboard_controller_interface import ANKeyboardControllerInterface
+from src.common.interfaces.controllers.mouse_controller_interface import ANMouseControllerInterface
 
 
 from src.common.config_model import ANConfigModel
 from src.engine.anchor_controller import ANAnchorController
+from src.engine.mouse_controller import ANMouseController
 from src.engine.state_controller import ANStateController
 from src.engine.keyboard_controller import ANKeyboardController
 
@@ -19,7 +19,7 @@ class ANEngine(ANEngineInterface, object):
     """
 
     def __init__(self):
-        self._mouse_controller = MouseController()
+        self._mouse_controller:ANMouseControllerInterface = ANMouseController()
         self._keyboard_controller:ANKeyboardControllerInterface = ANKeyboardController()
         self._state_controller:ANStateControllerInterface = ANStateController(self)
         self._anchor_controller:ANAnchorControllerInterface = ANAnchorController(self)
@@ -31,7 +31,7 @@ class ANEngine(ANEngineInterface, object):
     def get_state_controller(self) -> ANStateControllerInterface:
         return self._state_controller
 
-    def get_mouse_controller(self) -> MouseController:
+    def get_mouse_controller(self) -> ANMouseControllerInterface:
         return self._mouse_controller
     
     def get_keyboard_controller(self) -> ANKeyboardControllerInterface:
