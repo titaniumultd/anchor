@@ -15,4 +15,3 @@ class ANKeyboardController(object):
             pass
 
         kb.add_hotkey(hotkey, action)
-        

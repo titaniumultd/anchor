@@ -3,13 +3,15 @@ from pynput import mouse
 
 
 class ANMouseController(object):
+    def __init__(self):
+        self._controller = mouse.Controller()
 
     def get_position(self) -> tuple[int, int]:
-        return mouse.Controller.position
+        return self._controller.position
     
     def set_position(self, position: tuple[int, int]):
-        mouse.Controller.position = position
+        self._controller.position = position
 
     def click(self, laterality:str):
         button = mouse.Button.left if laterality=='left click' else mouse.Button.right
-        mouse.Controller.click(button=button)
+        self._controller.click(button=button)

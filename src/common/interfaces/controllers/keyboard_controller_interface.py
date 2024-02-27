@@ -8,5 +8,5 @@ class ANKeyboardControllerInterface(ABC):
         pass
 
     @abstractmethod
-    def set_hotkey(self, hotkey:str, action:callable)
+    def set_hotkey(self, hotkey:str, action:callable):
         pass
