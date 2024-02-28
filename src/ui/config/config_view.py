@@ -1,5 +1,6 @@
 
 import customtkinter as ctk
+from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
 
 from src.common.interfaces.engine_interface import ANEngineInterface
 from src.common.interfaces.ui.config_view_model_interface import ANConfigViewModelInterface
@@ -17,11 +18,11 @@ class ANConfigView(ANFrame):
                 ):
 
         self._master = master
-        self._view_model: ANConfigViewModelInterface = ANConfigViewModel(engine)
+        self._view_model: ANConfigViewModelInterface = ANConfigViewModel(engine.get_config_model())
         
         self._init_window()
         super().__init__(self._master)
-        self._load_anchor_subview(engine)
+        self._load_anchor_subview(engine.get_anchor_controller())
 
     def _load_subviews(self):
         self.pack()
@@ -34,8 +35,8 @@ class ANConfigView(ANFrame):
         self._master.iconbitmap(default=TASKBAR_ICON_PATH)
         self._master.protocol("WM_DELETE_WINDOW", self.hide_window)
         
-    def _load_anchor_subview(self, engine:ANEngineInterface):
-        self._anchor_list = ANAnchorList(self, engine)
+    def _load_anchor_subview(self, anchor_controller:ANAnchorControllerInterface):
+        self._anchor_list = ANAnchorList(self, anchor_controller)
         self._anchor_list.grid(column=0, row=0)
     
     def _load_config_subview(self):

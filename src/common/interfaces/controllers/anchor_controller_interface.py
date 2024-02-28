@@ -1,7 +1,7 @@
 
 from abc import ABC, abstractmethod
 
-from src.common.interfaces.anchor_model_interface import ANAnchorModelInterface
+from src.common.anchor_model import ANAnchor
 
 
 class ANAnchorControllerInterface(ABC):
@@ -10,7 +10,7 @@ class ANAnchorControllerInterface(ABC):
     """
 
     @abstractmethod
-    def get_anchors(self) -> list[ANAnchorModelInterface]:
+    def get_anchors(self) -> list[ANAnchor]:
         """
         Returns the anchors in a list.
         """

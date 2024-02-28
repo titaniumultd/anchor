@@ -1,16 +1,16 @@
 
 import customtkinter as ctk
+from src.common.config_model import ANConfigModel
 
 from src.common.interfaces.ui.config_view_model_interface import ANConfigViewModelInterface
-from src.common.interfaces.engine_interface import ANEngineInterface
 
 
 class ANConfigViewModel(ANConfigViewModelInterface, object):
     def __init__(self, 
-                engine: ANEngineInterface
+                config_model: ANConfigModel
                 ): 
 
-        self._config_model = engine.get_config_model()
+        self._config_model = config_model
         self.hotkey_var = ctk.BooleanVar(value=True)
 
     def update(self):
