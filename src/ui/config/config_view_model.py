@@ -11,7 +11,7 @@ class ANConfigViewModel(ANConfigViewModelInterface, object):
                 ): 
 
         self._config_model = config_model
-        self.hotkey_var = ctk.BooleanVar(value=True)
+        self._hotkey_var = ctk.BooleanVar(value=True)
 
     def update(self):
         if self._config_model.get_global_hotkey_state():
@@ -22,3 +22,7 @@ class ANConfigViewModel(ANConfigViewModelInterface, object):
     def toggle_global_hotkey_state(self):
         self._config_model.toggle_global_hotkey_state()
         self.update()
+
+    @property
+    def hotkey_var(self) -> ctk.BooleanVar:
+        return self._hotkey_var

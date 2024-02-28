@@ -17,9 +17,9 @@ class ANAnchorViewModel(ANAnchorViewModelInterface, object):
         self._anchor = anchor
         self._anchor_controller = anchor_controller
 
-        self.record_hotkey_strvar: ctk.StringVar = ctk.StringVar(value=self._anchor.get_hotkey('record'))
-        self.click_hotkey_strvar: ctk.StringVar = ctk.StringVar(value=self._anchor.get_hotkey('click'))
-        self.anchor_action: str = self._anchor.get_action()
+        self._record_hotkey_strvar = ctk.StringVar(value=self._anchor.get_hotkey('record'))
+        self._click_hotkey_strvar = ctk.StringVar(value=self._anchor.get_hotkey('click'))
+        self.anchor_action:str = self._anchor.get_action()
 
     def update_action(self, action:str):
         self._anchor.set_action(action)
@@ -28,5 +28,13 @@ class ANAnchorViewModel(ANAnchorViewModelInterface, object):
         self._anchor_controller.update_hotkey(self._anchor, hotkey_type, self.update)
 
     def update(self):
-        self.record_hotkey_strvar.set(self._anchor.get_hotkey('record'))
-        self.click_hotkey_strvar.set(self._anchor.get_hotkey('click'))
+        self._record_hotkey_strvar.set(self._anchor.get_hotkey('record'))
+        self._click_hotkey_strvar.set(self._anchor.get_hotkey('click'))
+    
+    @property
+    def record_hotkey_strvar(self) -> ctk.StringVar:
+        return self._record_hotkey_strvar
+    
+    @property
+    def click_hotkey_strvar(self) -> ctk.StringVar:
+        return self._click_hotkey_strvar

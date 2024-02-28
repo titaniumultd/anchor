@@ -4,10 +4,14 @@ import customtkinter as ctk
 
 
 class ANAnchorViewModelInterface(ABC):
-    def __init__(self):
-        self.record_hotkey_strvar:ctk.StringVar
-        self.click_hotkey_strvar:ctk.StringVar
-        self.anchor_action:str
+    
+    @property
+    def record_hotkey_strvar(self) -> ctk.StringVar:
+        pass
+    
+    @property
+    def click_hotkey_strvar(self) -> ctk.StringVar:
+        pass
     
     @abstractmethod
     def update(self):
