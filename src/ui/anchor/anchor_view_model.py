@@ -1,15 +1,16 @@
  
 import customtkinter as ctk
 
-from src.common.interfaces.anchor_model_interface import ANAnchorModelInterface
 from src.common.interfaces.ui.anchor_view_model_interface import ANAnchorViewModelInterface
 from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
+
+from src.common.anchor_model import ANAnchor
 
 
 class ANAnchorViewModel(ANAnchorViewModelInterface, object):
 
     def __init__(self, 
-                 anchor: ANAnchorModelInterface, 
+                 anchor: ANAnchor, 
                  anchor_controller: ANAnchorControllerInterface
                  ):
         

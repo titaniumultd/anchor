@@ -6,7 +6,6 @@ from src.common.anchor_model import ANAnchor
 from src.common.variables import MAX_ANCHORS
 from src.common.interfaces.engine_interface import ANEngineInterface
 from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
-from src.common.interfaces.anchor_model_interface import ANAnchorModelInterface
 
 
 class ANAnchorController(ANAnchorControllerInterface, object):
@@ -21,10 +20,10 @@ class ANAnchorController(ANAnchorControllerInterface, object):
 
         self._init_anchors()
 
-    def get_anchors(self) -> list[ANAnchorModelInterface]:
+    def get_anchors(self) -> list[ANAnchor]:
         return self._anchors
     
-    def update_hotkey(self, anchor:ANAnchorModelInterface, hotkey_type:str, callback:callable):
+    def update_hotkey(self, anchor:ANAnchor, hotkey_type:str, callback:callable):
         threading.Thread(target=self._new_hotkey_threaded, args=(anchor, hotkey_type, callback)).start()
     
     def _create_new_anchor(self):
@@ -57,7 +56,7 @@ class ANAnchorController(ANAnchorControllerInterface, object):
 
         self._anchors.append(anchor)
 
-    def _new_hotkey_threaded(self, anchor:ANAnchorModelInterface, hotkey_type:str, callback:callable):
+    def _new_hotkey_threaded(self, anchor:ANAnchor, hotkey_type:str, callback:callable):
         new_hotkey = self._engine().get_keyboard_controller().record_hotkey()
         anchor.set_hotkey(hotkey_type, new_hotkey)
 
@@ -68,7 +67,7 @@ class ANAnchorController(ANAnchorControllerInterface, object):
         self._engine().update()
         callback()
 
-    def _bind_click(self, anchor:ANAnchorModelInterface, hotkey:str):
+    def _bind_click(self, anchor:ANAnchor, hotkey:str):
         def action():
             mouse_controller = self._engine().get_mouse_controller()
             mouse_controller.set_position(anchor.get_position())
@@ -76,7 +75,7 @@ class ANAnchorController(ANAnchorControllerInterface, object):
 
         self._engine().get_keyboard_controller().set_hotkey(hotkey, action)
 
-    def _bind_record(self, anchor:ANAnchorModelInterface, hotkey:str):
+    def _bind_record(self, anchor:ANAnchor, hotkey:str):
         def action():
             mouse_controller = self._engine().get_mouse_controller()
             anchor.set_anchor_position(mouse_controller.get_position())

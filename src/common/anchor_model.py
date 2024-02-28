@@ -1,8 +1,8 @@
 
-from src.common.interfaces.anchor_model_interface import ANAnchorModelInterface
 from src.common.variables import ACTION_LEFT_CLICK
 
-class ANAnchor(ANAnchorModelInterface, object):
+
+class ANAnchor(object):
         
         def __init__(self) -> object:
             self._anchor_position: tuple[int,int] = None

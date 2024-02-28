@@ -5,7 +5,7 @@ import pystray as tray
 from PIL import Image
 
 from src.common.interfaces.ui.config_view_interface import ANConfigViewInterface
-from src.common.interfaces.config_model_interface import ANConfigModelInterface
+from src.common.config_model import ANConfigModel
 from src.common.variables import TASKBAR_ICON_PATH, TITLE_STR
 
 
@@ -15,7 +15,7 @@ class ANTray(object):
     """
 
     def __init__(self,
-                config_model: ANConfigModelInterface,
+                config_model: ANConfigModel,
                 config_view: ANConfigViewInterface):
         
         self._config_model = config_model

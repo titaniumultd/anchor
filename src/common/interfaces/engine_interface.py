@@ -4,8 +4,10 @@ from abc import ABC, abstractmethod
 from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
 from src.common.interfaces.controllers.keyboard_controller_interface import ANKeyboardControllerInterface
 from src.common.interfaces.controllers.state_controller_interface import ANStateControllerInterface
-from src.common.interfaces.config_model_interface import ANConfigModelInterface
 from src.common.interfaces.controllers.mouse_controller_interface import ANMouseControllerInterface
+
+from src.common.config_model import ANConfigModel
+
 
 class ANEngineInterface(ABC):
     """
@@ -42,7 +44,7 @@ class ANEngineInterface(ABC):
         pass
 
     @abstractmethod
-    def get_config_model(self) -> ANConfigModelInterface:
+    def get_config_model(self) -> ANConfigModel:
         pass
 
     @abstractmethod

@@ -20,8 +20,8 @@ class App(object):
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(TITLE_STR)
 
         self._master = CTk()
-        self._engine:ANEngineInterface = ANEngine()
-        self._config_view:ANConfigViewInterface = ANConfigView(self._master, self._engine)
+        self._engine = ANEngine()
+        self._config_view = ANConfigView(self._master, self._engine)
         self._tray = ANTray(self._engine.get_config_model(), self._config_view)
     
     def run(self):

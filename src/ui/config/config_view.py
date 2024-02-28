@@ -9,7 +9,7 @@ from src.ui.anchor.anchor_list import ANAnchorList
 from src.ui.config.config_view_model import ANConfigViewModel
 from src.ui.custom.frame import ANFrame
 
-
+# todo: handle engine at this level and pass down controllers/models
 class ANConfigView(ANFrame):
     def __init__(self, 
                 master: ctk.CTk, 
