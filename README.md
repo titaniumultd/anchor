@@ -18,12 +18,14 @@
     - [x] App/Tray icon
     - [x] Minimize to hidden icons
     - [X] Make pretty
+    - [ ] Tray rework
     - [ ] Localization?
 - [ ] UX overhaul
-    - [ ] Keybind creation
+    - [X] Keybind creation
     - [x] Remove add/delete
     - [x] Global keybind checkbox
-    - [ ] ~~Drag and Drop workflow~~
+    - [ ] Dither buttons
+- [X] MVVM
 - [ ] Release
     - [ ] Executable/install
     - [ ] Press release
