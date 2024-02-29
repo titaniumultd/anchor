@@ -9,17 +9,21 @@ from src.common.variables import (SCREEN_HEIGHT, SCREEN_WIDTH,
 from src.ui.anchor.anchor_list import ANAnchorList
 from src.ui.config.config_view_model import ANConfigViewModel
 from src.ui.custom.frame import ANFrame
+from src.ui.tray.tray import ANTray
 
-# todo: handle engine at this level and pass down controllers/models
+
 class ANConfigView(ANFrame):
     def __init__(self, 
+                app: object,
                 master: ctk.CTk, 
                 engine: ANEngineInterface
                 ):
 
         self._master = master
         self._view_model: ANConfigViewModelInterface = ANConfigViewModel(engine.get_config_model())
-        
+
+        self._tray = ANTray(app, self, engine.get_config_model())
+
         self._init_window()
         super().__init__(self._master)
         self._load_anchor_subview(engine.get_anchor_controller())
@@ -49,12 +53,10 @@ class ANConfigView(ANFrame):
 
     def toggle_global_hotkeys(self):
         self._view_model.toggle_global_hotkey_state()
+        self._tray.update()
 
     def show_window(self):
         self._master.deiconify()
 
     def hide_window(self):
         self._master.withdraw()
-    
-    def exit_app(self):
-        self._master.destroy()
