@@ -1,54 +1,43 @@
 
-from pynput.mouse import Controller as MouseController
-
 from src.common.interfaces.engine_interface import ANEngineInterface
-from src.common.notifier import ANNotifyListener, ANNotifier
+from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
+from src.common.interfaces.controllers.state_controller_interface import ANStateControllerInterface
+from src.common.interfaces.controllers.keyboard_controller_interface import ANKeyboardControllerInterface
+from src.common.interfaces.controllers.mouse_controller_interface import ANMouseControllerInterface
 
-from src.engine.anchors_controller import ANAnchorsController
-from src.engine.profile_controller import ANProfileController
+
+from src.common.config_model import ANConfigModel
+from src.engine.anchor_controller import ANAnchorController
+from src.engine.mouse_controller import ANMouseController
 from src.engine.state_controller import ANStateController
+from src.engine.keyboard_controller import ANKeyboardController
 
-
-class ANEngine(ANEngineInterface, ANNotifyListener, object):
+class ANEngine(ANEngineInterface, object):
     """
     Class containing all internal business logic.
     """
 
-    def __init__(self, root):
-        self._root = root
-        self._mouse = MouseController()
-        self._notifier = ANNotifier()
-        self._notifier.register_listener(self)
+    def __init__(self):
+        self._mouse_controller = ANMouseController()
+        self._keyboard_controller = ANKeyboardController()
+        self._state_controller = ANStateController(self)
+        self._anchor_controller = ANAnchorController(self)
+        self._config_model = ANConfigModel()
 
-        self._state_controller = ANStateController()
-        self._profile_controller = ANProfileController(self)
-        self._anchors_controller = ANAnchorsController(self)
+    def get_anchor_controller(self) -> ANAnchorControllerInterface:
+        return self._anchor_controller
 
-    def get_anchors_controller(self):
-        return self._anchors_controller
-
-    def get_profile_controller(self):
-        return self._profile_controller
-
-    def get_state_controller(self):
+    def get_state_controller(self) -> ANStateControllerInterface:
         return self._state_controller
+
+    def get_mouse_controller(self) -> ANMouseControllerInterface:
+        return self._mouse_controller
     
-    def get_root(self):
-        return self._root
+    def get_keyboard_controller(self) -> ANKeyboardControllerInterface:
+        return self._keyboard_controller
+    
+    def get_config_model(self) -> ANConfigModel:
+        return self._config_model
 
-    def get_mouse(self):
-        return self._mouse
-
-    def get_notifier(self):
-        return self._notifier
-
-    def load(self) -> None:
-        self._state_controller.load_state()
-        self._profile_controller.load_profiles()
-        self._anchors_controller.load_anchors()
-
-    # ANNotifyListener
-        
     def update(self):
-        self.get_anchors_controller().save_anchors()
-    
+        self._state_controller.update_state()

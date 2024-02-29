@@ -6,7 +6,7 @@
 * 5 Anchors
 * Right / Left click
 * Save between sessions
-* Drag and Drop or Keyboard control
+* Keyboard control
 * Open source
 
 ### To-Do

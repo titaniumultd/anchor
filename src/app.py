@@ -1,44 +1,28 @@
 
 import ctypes
 import logging
-import customtkinter as ctk
 
-import keyboard
+from customtkinter import CTk
 
-from src.common.config import SCREEN_HEIGHT, SCREEN_WIDTH, TASKBAR_ICON_PATH, TITLE_STR
+from src.common.interfaces.engine_interface import ANEngineInterface
+from src.common.interfaces.ui.config_view_interface import ANConfigViewInterface
+
+from src.common.variables import TITLE_STR
+
 from src.engine.engine import ANEngine
-from src.ui.root_view import ANRootView
-from src.ui.tray import ANTray
+from src.ui.config.config_view import ANConfigView
+from src.ui.tray.tray import ANTray
 
 
 class App(object):
     def __init__(self):
         logging.basicConfig(filename='error.log', level=logging.INFO)
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(TITLE_STR)
-        
-        self.root = ctk.CTk()
-        self.root.title(TITLE_STR)
-        self.root.protocol("WM_DELETE_WINDOW", self.hide_window)
-        self.root.geometry(f'{SCREEN_WIDTH}x{SCREEN_HEIGHT}')
-        self.root.minsize(SCREEN_WIDTH, SCREEN_HEIGHT)
-        self.root.iconbitmap(default=TASKBAR_ICON_PATH)
 
-        self._root_view = None
-
-        self._engine = ANEngine(self.root)
-
+        self._master = CTk()
+        self._engine = ANEngine()
+        self._config_view = ANConfigView(self._master, self._engine)
+        self._tray = ANTray(self._engine.get_config_model(), self._config_view)
+    
     def run(self):
-        self._engine.load()
-        self._root_view = ANRootView(self.root, self._engine)
-        self._tray = ANTray(self)
-        self.root.mainloop()
-    
-    def show_window(self) -> None:
-        self.root.after(0, self.root.deiconify)
-    
-    def hide_window(self) -> None:
-        self.root.after(0, self.root.withdraw)
-
-    def exit(self) -> None:
-        keyboard.unhook_all()
-        self.root.destroy()
+        self._master.mainloop()
