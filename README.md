@@ -18,13 +18,14 @@
     - [x] App/Tray icon
     - [x] Minimize to hidden icons
     - [X] Make pretty
-    - [ ] Tray rework
-    - [ ] Localization?
+    - [X] Tray rework
+    - [ ] ~~Localization?~~
 - [ ] UX overhaul
     - [X] Keybind creation
     - [x] Remove add/delete
     - [x] Global keybind checkbox
     - [ ] Dither buttons
+    - [ ] Hotkey disable on record
 - [X] MVVM
 - [ ] Release
     - [ ] Executable/install
