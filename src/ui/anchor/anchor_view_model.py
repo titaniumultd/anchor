@@ -28,6 +28,11 @@ class ANAnchorViewModel(ANAnchorViewModelInterface, object):
         self._anchor.set_action(action)
 
     def request_hotkey_update(self, hotkey_type:str):
+        if hotkey_type == 'record':
+            self._record_hotkey_strvar.set('Recording...')
+        else:
+            self._click_hotkey_strvar.set('Recording...')
+            
         self._anchor_controller.update_hotkey(self._anchor, hotkey_type, self.update)
         self._dither_all()
 
