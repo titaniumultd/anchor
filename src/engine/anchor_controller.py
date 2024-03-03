@@ -6,6 +6,7 @@ from src.common.anchor_model import ANAnchor
 from src.common.variables import MAX_ANCHORS
 from src.common.interfaces.engine_interface import ANEngineInterface
 from src.common.interfaces.controllers.anchor_controller_interface import ANAnchorControllerInterface
+from src.engine import keyboard_controller
 
 
 class ANAnchorController(ANAnchorControllerInterface, object):
@@ -16,7 +17,7 @@ class ANAnchorController(ANAnchorControllerInterface, object):
     def __init__(self, 
                  engine: ANEngineInterface):
         self._engine = weakref.ref(engine)
-        self._anchors = []
+        self._anchors:list[ANAnchor] = []
 
         self._init_anchors()
 
@@ -24,6 +25,8 @@ class ANAnchorController(ANAnchorControllerInterface, object):
         return self._anchors
     
     def update_hotkey(self, anchor:ANAnchor, hotkey_type:str, callback:callable):
+        kb_controller = self._engine().get_keyboard_controller()
+        kb_controller.clear_hotkey(anchor.get_hotkey(hotkey_type))
         threading.Thread(target=self._new_hotkey_threaded, args=(anchor, hotkey_type, callback)).start()
     
     def _create_new_anchor(self):
@@ -45,14 +48,14 @@ class ANAnchorController(ANAnchorControllerInterface, object):
         
         anchor.set_anchor_position(anchor_dict['mouse_position'])
         anchor.set_action(anchor_dict['action'])
-        #todo fix loading from state
+
         if anchor_dict.get('record_hotkey') != 'undefined':
             anchor.set_hotkey('record', anchor_dict['record_hotkey'])
-            self._bind_record(anchor, anchor_dict['record_hotkey'])
+            self._bind_record(anchor)
 
         if anchor_dict.get('click_hotkey') != 'undefined':
             anchor.set_hotkey('click', anchor_dict['click_hotkey'])
-            self._bind_click(anchor, anchor_dict['click_hotkey'])
+            self._bind_click(anchor)
 
         self._anchors.append(anchor)
 
@@ -61,24 +64,35 @@ class ANAnchorController(ANAnchorControllerInterface, object):
         anchor.set_hotkey(hotkey_type, new_hotkey)
 
         if hotkey_type == 'click':
-            self._bind_click(anchor, new_hotkey)
+            self._bind_click(anchor)
         else:
-            self._bind_record(anchor, new_hotkey)
+            self._bind_record(anchor)
         self._engine().update()
         callback()
+    
+    def _disable_anchors(self):
+        kb_controller = self._engine().get_keyboard_controller()
+        for anchor in self._anchors:
+            kb_controller.clear_hotkey(anchor.get_hotkey('record'))
+            kb_controller.clear_hotkey(anchor.get_hotkey('click'))
+    
+    def _enable_anchors(self):
+        for anchor in self._anchors:
+            self._bind_click(anchor)
+            self._bind_record(anchor)
 
-    def _bind_click(self, anchor:ANAnchor, hotkey:str):
+    def _bind_click(self, anchor:ANAnchor):
         def action():
             mouse_controller = self._engine().get_mouse_controller()
             mouse_controller.set_position(anchor.get_position())
             mouse_controller.click(anchor.get_action())
 
-        self._engine().get_keyboard_controller().set_hotkey(hotkey, action)
+        self._engine().get_keyboard_controller().set_hotkey(anchor.get_hotkey('click'), action)
 
-    def _bind_record(self, anchor:ANAnchor, hotkey:str):
+    def _bind_record(self, anchor:ANAnchor):
         def action():
             mouse_controller = self._engine().get_mouse_controller()
             anchor.set_anchor_position(mouse_controller.get_position())
             self._engine().update()
         
-        self._engine().get_keyboard_controller().set_hotkey(hotkey, action)
+        self._engine().get_keyboard_controller().set_hotkey(anchor.get_hotkey('record'), action)

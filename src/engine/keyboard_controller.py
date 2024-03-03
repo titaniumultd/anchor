@@ -15,3 +15,9 @@ class ANKeyboardController(object):
             pass
 
         kb.add_hotkey(hotkey, action)
+
+    def clear_hotkey(self, hotkey:str):
+        try:
+            kb.remove_hotkey(hotkey)
+        except:
+            print(f'Failed to remove keybind:{hotkey}')
