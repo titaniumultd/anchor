@@ -10,3 +10,6 @@ class ANConfigModel(object):
     
     def get_global_hotkey_state(self) -> bool:
         return self._global_hotkey_state
+    
+    def set_global_hotkey_state(self, value):
+        self._global_hotkey_state = value
