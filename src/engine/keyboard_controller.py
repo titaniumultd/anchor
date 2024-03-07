@@ -5,8 +5,10 @@ import keyboard as kb
 class ANKeyboardController(object):
 
     def record_hotkey(self) -> str:
+        hotkey = kb.read_hotkey()
+        kb.stash_state() # retains keys after reading unless you have double stash calls :shrug:
         kb.stash_state()
-        return kb.read_hotkey()
+        return hotkey
     
     def set_hotkey(self, hotkey:str, action:callable):
         if hotkey == 'undefined':

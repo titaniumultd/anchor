@@ -90,7 +90,6 @@ class ANAnchorController(ANAnchorControllerInterface, object):
 
     def _bind_record(self, anchor:ANAnchor):
         def action():
-            print(f'record bool: {self._engine().get_config_model().get_global_hotkey_state()}')
             if self._engine().get_config_model().get_global_hotkey_state():
                 mouse_controller = self._engine().get_mouse_controller()
                 anchor.set_anchor_position(mouse_controller.get_position())
