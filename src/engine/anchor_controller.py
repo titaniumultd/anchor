@@ -67,17 +67,6 @@ class ANAnchorController(ANAnchorControllerInterface, object):
         config_model.set_global_hotkey_state(hotkey_state)
         self._engine().update()
         callback()
-    
-    def _disable_anchors(self):
-        kb_controller = self._engine().get_keyboard_controller()
-        for anchor in self._anchors:
-            kb_controller.clear_hotkey(anchor.get_hotkey('record'))
-            kb_controller.clear_hotkey(anchor.get_hotkey('click'))
-    
-    def _enable_anchors(self):
-        for anchor in self._anchors:
-            self._bind_click(anchor)
-            self._bind_record(anchor)
 
     def _bind_click(self, anchor:ANAnchor):
         def action():
