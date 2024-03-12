@@ -13,19 +13,18 @@
 - [x] Feature reduction
     - [x] Remove profiles
     - [x] Remove double-click
-- [ ] UI overhaul
+- [x] UI overhaul
     - [X] Scale buttons/Anchor to fixed size
     - [x] App/Tray icon
     - [x] Minimize to hidden icons
     - [X] Make pretty
     - [X] Tray rework
-    - [ ] ~~Localization?~~
-- [ ] UX overhaul
+- [x] UX overhaul
     - [X] Keybind creation
     - [x] Remove add/delete
     - [x] Global keybind checkbox
-    - [ ] Dither buttons
-    - [ ] Hotkey disable on record
+    - [x] Dither buttons
+    - [x] Hotkey disable on record
 - [X] MVVM
 - [ ] Release
     - [ ] Executable/install

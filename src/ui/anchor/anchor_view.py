@@ -16,13 +16,21 @@ class ANAnchorView(ANFrame, object):
     def __init__(self, 
                  master: ANFrame,
                  anchor: ANAnchorViewModelInterface,
-                 anchor_controller: ANAnchorControllerInterface
+                 anchor_controller: ANAnchorControllerInterface,
                  ):
 
-        self._view_model:ANAnchorViewModelInterface = ANAnchorViewModel(anchor, anchor_controller)
-
+        self._view_model:ANAnchorViewModelInterface = ANAnchorViewModel(anchor, anchor_controller, master)
+        self._buttons:list[ctk.CTkButton] = []
         self._anchor_action: str = self._view_model.anchor_action
         super().__init__(master)
+
+    def dither(self):
+        for button in self._buttons:
+            button.configure(state='disabled')
+
+    def undither(self):
+        for button in self._buttons:
+            button.configure(state='normal')
 
     def _load_subviews(self):
         self.grid(column=0, sticky='news', pady=10)
@@ -37,10 +45,12 @@ class ANAnchorView(ANFrame, object):
         self.record_position_label = ctk.CTkLabel(self)
         self.record_position_entry = ctk.CTkEntry(self)
         self.record_position_button = ctk.CTkButton(self, text="Record", command=self._update_record_hotkey)
+        self._buttons.append(self.record_position_button)
 
         self.click_position_label = ctk.CTkLabel(self)
         self.click_position_entry = ctk.CTkEntry(self)
         self.click_position_button = ctk.CTkButton(self, text="Record", command=self._update_click_hotkey)
+        self._buttons.append(self.click_position_button)
 
         self.action_label = ctk.CTkLabel(self)
         self.action_combobox = ctk.CTkComboBox(self, values=ACTIONS, command=self._update_action)

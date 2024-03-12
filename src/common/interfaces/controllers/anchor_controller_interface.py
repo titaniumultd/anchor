@@ -15,3 +15,7 @@ class ANAnchorControllerInterface(ABC):
         Returns the anchors in a list.
         """
         pass
+    
+    @abstractmethod
+    def update_hotkey(self, anchor:ANAnchor, hotkey_type:str, callback:callable):
+        pass

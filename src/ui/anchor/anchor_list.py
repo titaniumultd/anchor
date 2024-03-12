@@ -15,6 +15,7 @@ class ANAnchorList(ANFrame):
                 ):
         
         self._anchor_controller = anchor_controller
+        self._anchor_views = []
         super().__init__(master)
 
     def _load_subviews(self):
@@ -24,3 +25,8 @@ class ANAnchorList(ANFrame):
         for anchor in anchors:
             anchor_view = ANAnchorView(self, anchor, self._anchor_controller)
             anchor_view.grid(column=0, sticky='news', pady=10)
+            self._anchor_views.append(anchor_view)
+    
+    @property
+    def anchor_views(self) -> list[ANAnchorView]:
+        return self._anchor_views
